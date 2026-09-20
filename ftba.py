@@ -146,30 +146,30 @@ VISHNU_SAHASRANAMA_SLOKAS = [
 # ─────────────────────────────────────────────
 BALENO_FACTS = {
     "title": "Baleno CNG AGS",
-    "subtitle": "India's first CNG + Automatic in a Maruti hatchback [citation:11]",
+    "subtitle": "India's first CNG + Automatic in a Maruti hatchback ",
     "exterior": [
-        ("Signature NEXWave Grille", "Chrome slats, Suzuki logo moved to bonnet [citation:13]"),
-        ("NEXTre LED DRLs", "Tri-arrow daytime running lamps [citation:8]"),
-        ("LED Projector Headlamps", "Zeta and Alpha trims [citation:2]"),
-        ("Precision-Cut Alloys", "16-inch dual-tone on Alpha [citation:13]"),
-        ("NEXTre Signature LED Tail Lamps", "L-shaped, distinctive at night [citation:2]"),
-        ("Shark Fin Antenna", "Roof-mounted, replaces old pole antenna [citation:17]"),
+        ("Signature NEXWave Grille", "Chrome slats, Suzuki logo moved to bonnet "),
+        ("NEXTre LED DRLs", "Tri-arrow daytime running lamps "),
+        ("LED Projector Headlamps", "Zeta and Alpha trims "),
+        ("Precision-Cut Alloys", "16-inch dual-tone on Alpha "),
+        ("NEXTre Signature LED Tail Lamps", "L-shaped, distinctive at night "),
+        ("Shark Fin Antenna", "Roof-mounted, replaces old pole antenna "),
     ],
     "interior": [
-        ("Ventilated Front Seats", "Alpha (O) trims [citation:2]"),
-        ("SmartPlay Pro+ Infotainment", "9-inch, wireless Android Auto & Apple CarPlay [citation:2]"),
-        ("Clarion Premium Audio", "Alpha trims [citation:2]"),
-        ("Cooled Wireless Charger", "Qi-certified [citation:13]"),
-        ("Head-Up Display (HUD)", "Pop-up display for key info [citation:17]"),
-        ("360-Degree Camera", "Top trims [citation:17]"),
+        ("Ventilated Front Seats", "Alpha (O) trims "),
+        ("SmartPlay Pro+ Infotainment", "9-inch, wireless Android Auto & Apple CarPlay "),
+        ("Clarion Premium Audio", "Alpha trims "),
+        ("Cooled Wireless Charger", "Qi-certified "),
+        ("Head-Up Display (HUD)", "Pop-up display for key info "),
+        ("360-Degree Camera", "Top trims "),
     ],
     "cng_ags": [
-        ("First in India", "CNG + AGS combination — a first for any Maruti car [citation:15]"),
-        ("Engine", "Advanced Z12E 1.2L with Dual VVT and Idle Start-Stop [citation:11]"),
-        ("CNG Power", "70 bhp & 101.8 Nm in CNG mode [citation:4]"),
-        ("Mileage", "33.61 km/kg (CNG), 24.77 km/l (Petrol AGS) [citation:3][citation:13]"),
-        ("Variants", "Delta CNG AGS (₹8.32L), Zeta CNG AGS (₹9.32L) [citation:1]"),
-        ("Transmission", "5-speed AGS (AMT) with manual override [citation:11]"),
+        ("First in India", "CNG + AGS combination — a first for any Maruti car "),
+        ("Engine", "Advanced Z12E 1.2L with Dual VVT and Idle Start-Stop "),
+        ("CNG Power", "70 bhp & 101.8 Nm in CNG mode "),
+        ("Mileage", "33.61 km/kg (CNG), 24.77 km/l (Petrol AGS) "),
+        ("Variants", "Delta CNG AGS (₹8.32L), Zeta CNG AGS (₹9.32L) "),
+        ("Transmission", "5-speed AGS (AMT) with manual override "),
     ],
 }
 
@@ -758,6 +758,11 @@ elif mode == "night":
         '</div>',
         unsafe_allow_html=True,
     )
+
+    # ── Night YouTube Video ──
+    st.markdown('<div class="ritual-label" style="margin-top:24px;">🎧 Night Listening</div>', unsafe_allow_html=True)
+    st.video("https://www.youtube.com/watch?v=v9AHBtbk-E0")
+    st.caption("Let this night sound carry you into stillness. Close your eyes. Breathe.")
 
 # ─────────────────────────────────────────────
 # CONTENT — HANUMAN CHALISA
