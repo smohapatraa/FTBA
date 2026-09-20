@@ -2,6 +2,8 @@ import streamlit as st
 from datetime import datetime, timedelta
 import pandas as pd
 import plotly.graph_objects as go
+from gtts import gTTS
+from io import BytesIO
 
 # ─────────────────────────────────────────────
 # PAGE CONFIG
@@ -782,33 +784,63 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# AUDIO RECITATION
+# AUDIO RECITATION — gTTS + st.audio
 # ─────────────────────────────────────────────
 if mode in ["hanuman", "vishnu"]:
     st.markdown('<div class="ritual-label">🔊 Listen to Recitation</div>', unsafe_allow_html=True)
 
-    try:
-        from streamlit_TTS import text_to_speech
+    if mode == "hanuman":
+        recitation_text = (
+            " ".join(HANUMAN_CHALISA_DOHA.values())
+            + " "
+            + " ".join(HANUMAN_CHALISA_CHAUPAI)
+            + " "
+            + HANUMAN_CHALISA_CLOSING
+        )
+    else:
+        recitation_text = (
+            " ".join(VISHNU_SAHASRANAMA_SLOKAS)
+            + " "
+            + " ".join(VISHNU_SAHASRANAMA_STOTRAM)
+        )
 
-        if mode == "hanuman":
-            recitation_text = " ".join(HANUMAN_CHALISA_DOHA.values()) + " " + " ".join(HANUMAN_CHALISA_CHAUPAI) + " " + HANUMAN_CHALISA_CLOSING
-        else:
-            recitation_text = " ".join(VISHNU_SAHASRANAMA_SLOKAS) + " " + " ".join(VISHNU_SAHASRANAMA_STOTRAM)
+    cache_key = f"audio_{mode}"
+    if cache_key not in st.session_state:
+        st.session_state[cache_key] = None
 
-        col_play, col_stop = st.columns(2)
-        with col_play:
-            if st.button("▶️ Play Recitation", use_container_width=True, key=f"play_{mode}"):
-                with st.spinner("Preparing audio..."):
-                    text_to_speech(recitation_text[:3000], language="en", wait=False)
-                st.success("Audio ready. Continue your recitation.")
-        with col_stop:
-            if st.button("⏹️ Stop", use_container_width=True, key=f"stop_{mode}"):
-                st.info("Audio stopped.")
+    col_play, col_clear = st.columns(2)
 
-    except ImportError:
-        st.warning("Audio requires `streamlit-TTS`. Install with: `pip install streamlit-TTS`")
-    except Exception as e:
-        st.warning(f"Audio unavailable: {str(e)}")
+    with col_play:
+        if st.button(
+            "▶️ Generate & Play Recitation",
+            use_container_width=True,
+            key=f"play_{mode}",
+        ):
+            with st.spinner("Generating audio... (may take a few seconds)"):
+                try:
+                    tts = gTTS(text=recitation_text[:3000], lang="en", slow=False)
+                    audio_buffer = BytesIO()
+                    tts.write_to_fp(audio_buffer)
+                    audio_buffer.seek(0)
+                    st.session_state[cache_key] = audio_buffer.getvalue()
+                except Exception as e:
+                    st.error(f"Audio generation failed: {e}")
+
+    with col_clear:
+        if st.button(
+            "🔄 Clear Audio",
+            use_container_width=True,
+            key=f"clear_{mode}",
+        ):
+            st.session_state[cache_key] = None
+            st.rerun()
+
+    if st.session_state[cache_key] is not None:
+        st.audio(st.session_state[cache_key], format="audio/mp3")
+        st.caption(
+            "Tap ▶️ on the player above to listen. "
+            "Use the browser controls to pause or replay."
+        )
 
 # ─────────────────────────────────────────────
 # CONTENT — MORNING
