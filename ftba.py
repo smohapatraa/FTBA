@@ -163,75 +163,75 @@ if "theme" not in st.session_state:
         st.session_state.theme = "night"
 
 # ─────────────────────────────────────────────
-# THEME TOKENS — 4 PALETTES
+# THEME TOKENS — ALL DARK PALETTES
 # ─────────────────────────────────────────────
 THEMES = {
     "dawn": {
         "name": "Dawn", "icon": "🌅",
-        "cream": "#FDF6F0", "cream_deep": "#F9E8E0",
-        "ink": "#3D2E2A", "ink_soft": "#5A4A44",
-        "gold": "#C47B5A", "gold_soft": "#E8A87C", "gold_pale": "#F0C8B0",
-        "card": "#FFFFFF", "card_soft": "#FFF9F5",
-        "verse_bg": "linear-gradient(135deg, #FFF9F5 0%, #FDE8DC 100%)",
-        "vow_bg": "linear-gradient(135deg, #FFF9F5 0%, #FAD9C8 100%)",
-        "seal_bg": "linear-gradient(135deg, #3D2E2A 0%, #5A4A44 100%)",
-        "seal_text": "#FDF6F0", "seal_accent": "#E8A87C",
-        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #FFF9F5 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #F9E8E0 0%, transparent 50%), linear-gradient(180deg, #FDF6F0 0%, #F9E8E0 100%)",
-        "shadow_sm": "0 2px 12px rgba(61, 46, 42, 0.06)",
-        "shadow_md": "0 6px 24px rgba(61, 46, 42, 0.10)",
-        "shadow_lg": "0 16px 48px rgba(61, 46, 42, 0.15)",
+        "cream": "#1A0F14", "cream_deep": "#241620",
+        "ink": "#F5E0E8", "ink_soft": "#D4B8C4",
+        "gold": "#E89A7C", "gold_soft": "#F5B89C", "gold_pale": "#4A2A30",
+        "card": "#261820", "card_soft": "#2E1E28",
+        "verse_bg": "linear-gradient(135deg, #261820 0%, #2E1E28 100%)",
+        "vow_bg": "linear-gradient(135deg, #2E1E28 0%, #3A2430 100%)",
+        "seal_bg": "linear-gradient(135deg, #3A2430 0%, #4A2E3C 100%)",
+        "seal_text": "#F5E0E8", "seal_accent": "#F5B89C",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #241620 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #1A0F14 0%, transparent 50%), linear-gradient(180deg, #1A0F14 0%, #241620 100%)",
+        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.40)",
+        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.55)",
+        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.70)",
     },
     "day": {
         "name": "Day", "icon": "☀️",
-        "cream": "#FBF6EC", "cream_deep": "#F5EBD8",
-        "ink": "#2E2A22", "ink_soft": "#4A4438",
-        "gold": "#B8893A", "gold_soft": "#D4AF37", "gold_pale": "#E8D9A8",
-        "card": "#FFFFFF", "card_soft": "#FFFDF6",
-        "verse_bg": "linear-gradient(135deg, #FFFDF6 0%, #FAF1D9 100%)",
-        "vow_bg": "linear-gradient(135deg, #FFFDF6 0%, #F7EBCB 100%)",
-        "seal_bg": "linear-gradient(135deg, #2E2A22 0%, #4A4438 100%)",
-        "seal_text": "#FBF6EC", "seal_accent": "#D4AF37",
-        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #FFFDF7 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #F5EBD8 0%, transparent 50%), linear-gradient(180deg, #FBF6EC 0%, #F5EBD8 100%)",
-        "shadow_sm": "0 2px 12px rgba(74, 63, 42, 0.06)",
-        "shadow_md": "0 6px 24px rgba(74, 63, 42, 0.10)",
-        "shadow_lg": "0 16px 48px rgba(74, 63, 42, 0.15)",
+        "cream": "#12100C", "cream_deep": "#1A1712",
+        "ink": "#F5EBD8", "ink_soft": "#D4C8A8",
+        "gold": "#D4A857", "gold_soft": "#E8C070", "gold_pale": "#4A3E22",
+        "card": "#1E1A14", "card_soft": "#262018",
+        "verse_bg": "linear-gradient(135deg, #1E1A14 0%, #262018 100%)",
+        "vow_bg": "linear-gradient(135deg, #262018 0%, #2E2618 100%)",
+        "seal_bg": "linear-gradient(135deg, #2E2618 0%, #3A3222 100%)",
+        "seal_text": "#F5EBD8", "seal_accent": "#E8C070",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #1A1712 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #12100C 0%, transparent 50%), linear-gradient(180deg, #12100C 0%, #1A1712 100%)",
+        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.40)",
+        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.55)",
+        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.70)",
     },
     "dusk": {
         "name": "Dusk", "icon": "🌇",
-        "cream": "#1A1218", "cream_deep": "#241A22",
-        "ink": "#F5E8E0", "ink_soft": "#D4C0B8",
-        "gold": "#D9886A", "gold_soft": "#E8A87C", "gold_pale": "#5A3A30",
-        "card": "#2A1E24", "card_soft": "#32262C",
-        "verse_bg": "linear-gradient(135deg, #2A1E24 0%, #32262C 100%)",
-        "vow_bg": "linear-gradient(135deg, #32262C 0%, #3A2A30 100%)",
-        "seal_bg": "linear-gradient(135deg, #3A2A30 0%, #4A363C 100%)",
-        "seal_text": "#F5E8E0", "seal_accent": "#E8A87C",
-        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #241A22 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #1A1218 0%, transparent 50%), linear-gradient(180deg, #1A1218 0%, #241A22 100%)",
-        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.30)",
-        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.45)",
-        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.60)",
+        "cream": "#14101A", "cream_deep": "#1E1826",
+        "ink": "#F0E4F5", "ink_soft": "#C8B8D4",
+        "gold": "#D9886A", "gold_soft": "#E8A87C", "gold_pale": "#3E2A42",
+        "card": "#221A2C", "card_soft": "#2A2034",
+        "verse_bg": "linear-gradient(135deg, #221A2C 0%, #2A2034 100%)",
+        "vow_bg": "linear-gradient(135deg, #2A2034 0%, #32263C 100%)",
+        "seal_bg": "linear-gradient(135deg, #32263C 0%, #3E2E48 100%)",
+        "seal_text": "#F0E4F5", "seal_accent": "#E8A87C",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #1E1826 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #14101A 0%, transparent 50%), linear-gradient(180deg, #14101A 0%, #1E1826 100%)",
+        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.40)",
+        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.55)",
+        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.70)",
     },
     "night": {
         "name": "Night", "icon": "🌙",
-        "cream": "#0F0D0A", "cream_deep": "#1A1611",
-        "ink": "#F5EBD8", "ink_soft": "#D4C8A8",
-        "gold": "#E8B96A", "gold_soft": "#F5C97A", "gold_pale": "#5A4A28",
-        "card": "#1E1A14", "card_soft": "#252018",
-        "verse_bg": "linear-gradient(135deg, #1E1A14 0%, #252018 100%)",
-        "vow_bg": "linear-gradient(135deg, #241E14 0%, #2E2618 100%)",
-        "seal_bg": "linear-gradient(135deg, #2A2418 0%, #3A3222 100%)",
-        "seal_text": "#F5EBD8", "seal_accent": "#E8B96A",
-        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #1A1611 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #0F0D0A 0%, transparent 50%), linear-gradient(180deg, #0F0D0A 0%, #1A1611 100%)",
-        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.30)",
-        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.45)",
-        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.60)",
+        "cream": "#0A0908", "cream_deep": "#12100C",
+        "ink": "#F5EBD8", "ink_soft": "#C8BC9C",
+        "gold": "#E8B96A", "gold_soft": "#F5C97A", "gold_pale": "#3E3620",
+        "card": "#16140F", "card_soft": "#1E1A14",
+        "verse_bg": "linear-gradient(135deg, #16140F 0%, #1E1A14 100%)",
+        "vow_bg": "linear-gradient(135deg, #1E1A14 0%, #262018 100%)",
+        "seal_bg": "linear-gradient(135deg, #262018 0%, #322A1E 100%)",
+        "seal_text": "#F5EBD8", "seal_accent": "#F5C97A",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #12100C 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #0A0908 0%, transparent 50%), linear-gradient(180deg, #0A0908 0%, #12100C 100%)",
+        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.45)",
+        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.60)",
+        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.75)",
     },
 }
 
 T = THEMES[st.session_state.theme]
 
 # ─────────────────────────────────────────────
-# PREMIUM DESIGN SYSTEM — CSS (theme-aware)
+# PREMIUM DESIGN SYSTEM — CSS (all dark, larger fonts)
 # ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
@@ -252,22 +252,30 @@ st.markdown(f"""
         --shadow-lg:    {T['shadow_lg']};
     }}
 
+    /* Base font size — larger */
     html, body, [class*="css"] {{
         font-family: 'Inter', sans-serif;
+        font-size: 17px;
         color: var(--ink);
     }}
 
-    .stApp {{
-        background: {T['body_grad']};
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {{
+        background: {T['body_grad']} !important;
         background-attachment: fixed;
+        color: var(--ink);
+    }}
+
+    [data-testid="stSidebar"] {{
+        background: var(--card);
     }}
 
     .main .block-container {{
-        max-width: 760px;
+        max-width: 800px;
         padding-top: 2rem;
         padding-bottom: 4rem;
     }}
 
+    /* ═══ HERO IMAGE ═══ */
     .hero-image-wrap {{
         position: relative;
         border-radius: 20px;
@@ -278,37 +286,37 @@ st.markdown(f"""
     }}
     .hero-image-wrap img {{
         width: 100%;
-        height: 260px;
+        height: 280px;
         object-fit: cover;
         display: block;
     }}
     .hero-image-wrap .overlay {{
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.60) 100%);
+        background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%);
     }}
     .hero-image-wrap .text {{
         position: absolute;
-        bottom: 24px;
-        left: 28px;
-        right: 28px;
+        bottom: 26px;
+        left: 30px;
+        right: 30px;
         color: #FFFDF7;
     }}
     .hero-image-wrap .text .eyebrow {{
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         letter-spacing: 3px;
         text-transform: uppercase;
         color: {T['gold_soft']};
         font-weight: 600;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }}
     .hero-image-wrap .text h2 {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 2rem;
+        font-size: 2.4rem;
         font-weight: 700;
         margin: 0;
         line-height: 1.15;
-        text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+        text-shadow: 0 2px 12px rgba(0,0,0,0.7);
     }}
     .hero-image-wrap .text h2 .accent {{
         color: {T['gold_soft']};
@@ -316,18 +324,19 @@ st.markdown(f"""
     }}
     .hero-image-wrap .caption {{
         position: absolute;
-        bottom: 6px;
-        right: 12px;
-        font-size: 0.55rem;
+        bottom: 8px;
+        right: 14px;
+        font-size: 0.65rem;
         color: rgba(255,255,255,0.55);
     }}
 
+    /* ═══ HEADER ═══ */
     .hero {{
         text-align: center;
         padding: 8px 0 20px 0;
     }}
     .hero-eyebrow {{
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         letter-spacing: 4px;
         text-transform: uppercase;
         color: var(--gold);
@@ -336,7 +345,7 @@ st.markdown(f"""
     }}
     .hero-title {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 2.4rem;
+        font-size: 3rem;
         font-weight: 700;
         color: var(--ink);
         line-height: 1.1;
@@ -353,69 +362,86 @@ st.markdown(f"""
         align-items: center;
         justify-content: center;
         gap: 12px;
-        margin: 16px 0 12px 0;
+        margin: 18px 0 14px 0;
         color: var(--gold);
     }}
     .hero-divider .line {{
-        width: 60px;
+        width: 70px;
         height: 1px;
         background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }}
     .hero-divider .dot {{
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         letter-spacing: 6px;
     }}
     .hero-sub {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-style: italic;
         color: var(--ink-soft);
         margin: 0;
     }}
 
+    /* ═══ LABELS ═══ */
     .ritual-label {{
         text-align: center;
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         letter-spacing: 3px;
         text-transform: uppercase;
         color: var(--gold);
         font-weight: 600;
-        margin: 8px 0 14px 0;
+        margin: 10px 0 16px 0;
     }}
 
+    /* ═══ BUTTONS ═══ */
     div[data-testid="column"] .stButton > button {{
         width: 100%;
         border-radius: 16px;
-        padding: 20px 12px;
+        padding: 22px 14px;
         border: 2px solid transparent;
         background: var(--card);
         box-shadow: var(--shadow-sm);
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.05rem;
+        font-size: 1.25rem;
         font-weight: 600;
         color: var(--ink);
         letter-spacing: 0.5px;
         transition: all 0.25s cubic-bezier(.2,.8,.2,1);
         white-space: pre-line;
         line-height: 1.5;
-        min-height: 90px;
+        min-height: 100px;
     }}
     div[data-testid="column"] .stButton > button:hover {{
         transform: translateY(-3px);
         box-shadow: var(--shadow-md);
-        border-color: var(--gold-pale);
-        color: var(--gold);
+        border-color: var(--gold-soft);
+        color: var(--gold-soft);
     }}
     div[data-testid="column"] .stButton > button:focus:not(:active) {{
-        color: var(--gold);
+        color: var(--gold-soft);
         border-color: var(--gold);
     }}
 
+    /* General buttons (play, complete, reset) */
+    .stButton > button {{
+        background: var(--card);
+        color: var(--ink);
+        border: 1px solid var(--gold-pale);
+        font-size: 1.05rem;
+        padding: 14px 18px;
+        border-radius: 12px;
+    }}
+    .stButton > button:hover {{
+        border-color: var(--gold-soft);
+        color: var(--gold-soft);
+    }}
+
+    /* ═══ CARDS ═══ */
     .card {{
         background: var(--card);
         border-radius: 18px;
-        padding: 26px 28px;
-        margin: 16px 0;
+        padding: 28px 30px;
+        margin: 18px 0;
         box-shadow: var(--shadow-md);
         border: 1px solid var(--gold-pale);
         animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
@@ -427,34 +453,34 @@ st.markdown(f"""
 
     .card-hero {{
         text-align: center;
-        padding: 32px 28px;
+        padding: 36px 30px;
         background: var(--card);
         border: 2px solid var(--gold-pale);
     }}
     .card-hero .badge {{
         display: inline-block;
-        font-size: 0.65rem;
+        font-size: 0.8rem;
         letter-spacing: 3px;
         text-transform: uppercase;
         color: var(--gold);
-        background: rgba(212, 175, 55, 0.10);
-        padding: 6px 14px;
+        background: rgba(232, 185, 106, 0.12);
+        padding: 8px 16px;
         border-radius: 100px;
         font-weight: 600;
-        margin-bottom: 16px;
+        margin-bottom: 18px;
     }}
     .card-hero .salutation {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.9rem;
+        font-size: 2.3rem;
         font-weight: 700;
         color: var(--ink);
-        margin: 0 0 8px 0;
+        margin: 0 0 10px 0;
         line-height: 1.2;
     }}
     .card-hero .salutation .accent {{ color: var(--gold); font-style: italic; }}
     .card-hero .prompt {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
         font-style: italic;
         color: var(--ink-soft);
         margin: 0;
@@ -464,25 +490,25 @@ st.markdown(f"""
     .section {{
         background: var(--card);
         border-radius: 14px;
-        padding: 20px 24px;
-        margin: 14px 0;
+        padding: 22px 26px;
+        margin: 16px 0;
         box-shadow: var(--shadow-sm);
         border-left: 4px solid var(--gold);
         animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
     }}
     .section h3 {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.05rem;
+        font-size: 1.3rem;
         letter-spacing: 2px;
         color: var(--gold);
-        margin: 0 0 12px 0;
+        margin: 0 0 14px 0;
         font-weight: 700;
         text-transform: uppercase;
     }}
     .section p {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.05rem;
-        line-height: 1.75;
+        font-size: 1.25rem;
+        line-height: 1.8;
         color: var(--ink-soft);
         margin: 0;
     }}
@@ -490,17 +516,18 @@ st.markdown(f"""
         display: block;
         font-weight: 700;
         color: var(--ink);
-        margin-top: 10px;
+        margin-top: 12px;
         font-style: italic;
+        font-size: 1.3rem;
     }}
 
     .hrcm-row {{
         display: flex;
         align-items: flex-start;
         gap: 12px;
-        padding: 8px 0;
+        padding: 10px 0;
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.05rem;
+        font-size: 1.25rem;
         color: var(--ink-soft);
         border-bottom: 1px dashed var(--gold-pale);
     }}
@@ -508,32 +535,32 @@ st.markdown(f"""
     .hrcm-row .k {{
         color: var(--gold);
         font-weight: 700;
-        min-width: 110px;
+        min-width: 130px;
     }}
 
     .vow {{
         background: {T['vow_bg']};
         border: 2px dashed var(--gold);
         border-radius: 16px;
-        padding: 24px 22px;
+        padding: 28px 26px;
         text-align: center;
-        margin: 16px 0;
+        margin: 18px 0;
         animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
     }}
     .vow h3 {{
         font-family: 'Cormorant Garamond', serif;
         color: var(--gold);
-        font-size: 1.05rem;
+        font-size: 1.3rem;
         letter-spacing: 3px;
         text-transform: uppercase;
-        margin: 0 0 12px 0;
+        margin: 0 0 14px 0;
         font-weight: 700;
     }}
     .vow p {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.05rem;
+        font-size: 1.25rem;
         color: var(--ink);
-        line-height: 1.9;
+        line-height: 2;
         margin: 0;
     }}
 
@@ -541,23 +568,23 @@ st.markdown(f"""
         background: {T['verse_bg']};
         border-left: 4px solid var(--gold);
         border-radius: 12px;
-        padding: 16px 20px;
-        margin: 10px 0;
+        padding: 20px 24px;
+        margin: 12px 0;
         box-shadow: var(--shadow-sm);
         animation: fadeUp 0.4s cubic-bezier(.2,.8,.2,1) both;
     }}
     .verse-card .verse-num {{
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         letter-spacing: 2px;
         color: var(--gold);
         text-transform: uppercase;
         font-weight: 700;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }}
     .verse-card .verse-text {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.1rem;
-        line-height: 1.7;
+        font-size: 1.3rem;
+        line-height: 1.75;
         color: var(--ink);
         font-style: italic;
         margin: 0;
@@ -567,9 +594,9 @@ st.markdown(f"""
         background: {T['seal_bg']};
         color: {T['seal_text']};
         border-radius: 18px;
-        padding: 30px 26px;
+        padding: 34px 30px;
         text-align: center;
-        margin: 28px 0 12px 0;
+        margin: 30px 0 14px 0;
         box-shadow: var(--shadow-lg);
         position: relative;
         overflow: hidden;
@@ -578,33 +605,33 @@ st.markdown(f"""
         content: "";
         position: absolute;
         inset: 8px;
-        border: 1px solid rgba(212, 175, 55, 0.35);
+        border: 1px solid rgba(232, 185, 106, 0.35);
         border-radius: 12px;
         pointer-events: none;
     }}
     .seal h3 {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         letter-spacing: 3px;
         color: {T['seal_accent']};
-        margin: 0 0 12px 0;
+        margin: 0 0 14px 0;
         font-weight: 700;
         position: relative;
     }}
     .seal p {{
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1rem;
+        font-size: 1.25rem;
         font-style: italic;
         color: {T['seal_text']};
-        line-height: 1.7;
+        line-height: 1.8;
         margin: 0;
         position: relative;
     }}
     .seal .sign {{
         font-family: 'Cormorant Garamond', serif;
         color: {T['seal_accent']};
-        font-size: 0.9rem;
-        margin-top: 14px;
+        font-size: 1.1rem;
+        margin-top: 16px;
         letter-spacing: 1px;
         position: relative;
     }}
@@ -612,12 +639,12 @@ st.markdown(f"""
     .streak-pill {{
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         background: var(--card);
         border: 1px solid var(--gold-pale);
         border-radius: 100px;
-        padding: 10px 20px;
-        font-size: 0.85rem;
+        padding: 12px 24px;
+        font-size: 1.05rem;
         font-weight: 500;
         color: var(--ink-soft);
         box-shadow: var(--shadow-sm);
@@ -625,7 +652,20 @@ st.markdown(f"""
     .streak-pill .num {{
         color: var(--gold);
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 1.2rem;
+    }}
+
+    /* Streamlit selectbox and captions */
+    .stSelectbox label {{
+        font-size: 1rem !important;
+        color: var(--ink-soft) !important;
+    }}
+    .stCaption, [data-testid="stCaptionContainer"] {{
+        font-size: 0.95rem !important;
+        color: var(--ink-soft) !important;
+    }}
+    .stMarkdown p, .stMarkdown li {{
+        font-size: 1.05rem;
     }}
 
     footer {{ visibility: hidden; }}
@@ -692,7 +732,7 @@ with col3:
         st.session_state.mode = "night"
         st.rerun()
 
-st.markdown('<div class="ritual-label" style="margin-top:18px;">Sacred Recitations</div>', unsafe_allow_html=True)
+st.markdown('<div class="ritual-label" style="margin-top:20px;">Sacred Recitations</div>', unsafe_allow_html=True)
 
 col4, col5 = st.columns(2)
 
@@ -950,7 +990,7 @@ elif mode == "hanuman":
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown('<div class="ritual-label" style="margin-top:24px;">Chaupai — Forty Verses</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ritual-label" style="margin-top:26px;">Chaupai — Forty Verses</div>', unsafe_allow_html=True)
     for i, verse in enumerate(HANUMAN_CHALISA_CHAUPAI, 1):
         st.markdown(f"""
         <div class="verse-card">
@@ -959,7 +999,7 @@ elif mode == "hanuman":
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown('<div class="ritual-label" style="margin-top:24px;">Closing Doha</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ritual-label" style="margin-top:26px;">Closing Doha</div>', unsafe_allow_html=True)
     st.markdown(f"""
     <div class="verse-card">
         <div class="verse-num">Doha — Closing</div>
@@ -968,7 +1008,7 @@ elif mode == "hanuman":
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div class="vow" style="margin-top:24px;">
+    <div class="vow" style="margin-top:26px;">
         <h3>✦ Jai Hanuman ✦</h3>
         <p>
             Where Hanuman is remembered,<br>
@@ -999,7 +1039,7 @@ elif mode == "vishnu":
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown('<div class="ritual-label" style="margin-top:24px;">Stotram — Opening Verses (Excerpt)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ritual-label" style="margin-top:26px;">Stotram — Opening Verses (Excerpt)</div>', unsafe_allow_html=True)
     for i, verse in enumerate(VISHNU_SAHASRANAMA_STOTRAM, 1):
         st.markdown(f"""
         <div class="verse-card">
@@ -1009,7 +1049,7 @@ elif mode == "vishnu":
         """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div class="vow" style="margin-top:24px;">
+    <div class="vow" style="margin-top:26px;">
         <h3>✦ Om Namo Narayanaya ✦</h3>
         <p>
             The Preserver sustains all.<br>
@@ -1113,11 +1153,11 @@ fig = go.Figure(data=go.Heatmap(
     x=[f"W{i+1}" for i in range(len(pivot.columns))],
     y=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     colorscale=[
-        [0.0, "#F0F0F0"],
+        [0.0, "#1E1A14"],
         [0.25, T["gold_pale"]],
         [0.5, T["gold_soft"]],
         [0.75, T["gold"]],
-        [1.0, "#B8893A"],
+        [1.0, "#F5C97A"],
     ],
     showscale=False,
     hovertemplate="Day: %{y}<br>Week: %{x}<br>Rituals: %{z}<extra></extra>",
@@ -1126,26 +1166,26 @@ fig = go.Figure(data=go.Heatmap(
 ))
 
 fig.update_layout(
-    height=220,
-    margin=dict(l=40, r=20, t=10, b=20),
+    height=250,
+    margin=dict(l=50, r=20, t=10, b=30),
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(family="Inter, sans-serif", size=10, color=T["ink_soft"]),
-    xaxis=dict(showgrid=False, showticklabels=True, side="bottom", tickfont=dict(size=8)),
-    yaxis=dict(showgrid=False, autorange="reversed", tickfont=dict(size=9)),
+    font=dict(family="Inter, sans-serif", size=12, color=T["ink_soft"]),
+    xaxis=dict(showgrid=False, showticklabels=True, side="bottom", tickfont=dict(size=10, color=T["ink_soft"])),
+    yaxis=dict(showgrid=False, autorange="reversed", tickfont=dict(size=11, color=T["ink_soft"])),
 )
 
 st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
     f"""
-    <div style="text-align:center; font-family:'Inter',sans-serif; font-size:0.7rem; color:{T['ink_soft']}; margin-top:-10px;">
+    <div style="text-align:center; font-family:'Inter',sans-serif; font-size:0.85rem; color:{T['ink_soft']}; margin-top:-10px;">
         Less &nbsp;
-        <span style="display:inline-block; width:12px; height:12px; background:#F0F0F0; border-radius:2px; vertical-align:middle;"></span>
-        <span style="display:inline-block; width:12px; height:12px; background:{T['gold_pale']}; border-radius:2px; vertical-align:middle;"></span>
-        <span style="display:inline-block; width:12px; height:12px; background:{T['gold_soft']}; border-radius:2px; vertical-align:middle;"></span>
-        <span style="display:inline-block; width:12px; height:12px; background:{T['gold']}; border-radius:2px; vertical-align:middle;"></span>
-        <span style="display:inline-block; width:12px; height:12px; background:#B8893A; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:14px; height:14px; background:#1E1A14; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:14px; height:14px; background:{T['gold_pale']}; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:14px; height:14px; background:{T['gold_soft']}; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:14px; height:14px; background:{T['gold']}; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:14px; height:14px; background:#F5C97A; border-radius:2px; vertical-align:middle;"></span>
         &nbsp; More
     </div>
     """,
@@ -1180,4 +1220,4 @@ with st.expander("🖨️  Print or Save as PDF"):
     6. Print 3 copies → wallet · desk · car
     """)
 
-st.caption("🌿 Speak it until you believe it. Believe it until you live it. Live it until you become it.")
+st.caption("🌿 Speak it until you believe it. Believe it until you live it. Live it until you become.")
