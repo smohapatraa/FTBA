@@ -9,7 +9,7 @@ from io import BytesIO
 # PAGE CONFIG
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="Pocket Affirmation · Sacred Daily Ritual",
+    page_title="FTBA for HRCM",
     page_icon="🌿",
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -70,37 +70,37 @@ def format_inr(n):
 # EMBEDDED SACRED TEXTS
 # ─────────────────────────────────────────────
 HANUMAN_CHALISA_DOHA = {
-    "Doha 1": "Shri Guru Charan Saroj Raj, Nij Manu Mukur Sudhaari. Baranau Raghubar Vimal Jas, Jo Daayak Phal Chari.",
-    "Doha 2": "Buddhiheen Tanu Jaankai, Sumiron Pavan-Kumar. Bal Buddhi Vidya Dehu Mohin, Harhu Kalesh Vikaari.",
+    "Doha 1": "Shri Guru Charan Saroj Raj, Nij Manu Mukur Sudhaari. Baranau Raghubar Vimala Jasu, Jo Daayaku Phala Chari.",
+    "Doha 2": "Buddhiheen Tanu Jaanikai, Sumiroun Pavana-Kumara. Bal Buddhi Vidya Dehu Mohin, Harahu Kalesha Vikaara.",
 }
 
 HANUMAN_CHALISA_CHAUPAI = [
     "Jai Hanuman Gyaan Gun Saagar, Jai Kapis Tihun Lok Ujaagar.",
     "Ram Doot Atulit Bal Dhaama, Anjani-Putra Pavan-Sut Naama.",
     "Mahabeer Vikram Bajrangi, Kumati Nivaar Sumati Ke Sangi.",
-    "Kanchan Varn Biraj Subesa, Kanan Kundal Kunchit Kesa.",
-    "Haath Vajra Au Dhwaja Birajai, Kaanhe Moonj Janeu Sajaai.",
-    "Shankar Suvan Kesari Nandan, Tej Pratap Maha Jag Vandan.",
+    "Kanchan Varan Biraj Subesa, Kanan Kundal Kunchit Kesa.",
+    "Haath Vajra Aur Dhwaja Birajai, Kaandhe Moonj Janeu Sajaai.",
+    "Shankar Suvan Keshari Nandan, Tej Pratap Maha Jag Vandan.",
     "Vidyaavaan Guni Ati Chatur, Ram Kaaj Karibe Ko Aatur.",
     "Prabhu Charitra Sunibe Ko Rasiya, Ram Lakhan Sita Man Basiya.",
     "Sookshm Roop Dhari Siyaahi Dikhawa, Vikat Roop Dhari Lank Jaraawa.",
     "Bheem Roop Dhari Asur Sanhaare, Ramchandra Ke Kaaj Sanwaare.",
-    "Laay Sanjeevani Lakhana Jiyaaye, Shri Raghubeer Harsh Ur Laye.",
-    "Raghupati Keenee Bahut Badaai, Tum Mam Priya Bharatahi Sam Bhai.",
-    "Sahas Badan Tumharo Yash Gaave, As Kahi Shri-Pati Kanth Lagaaave.",
-    "Sanakaadik Brahmaadi Muneesa, Narad Saraswati Sahit Ahisa.",
-    "Yam Kuber Dikpaal Jahan Te, Kavi Kobid Kahin Sake Kahan Te.",
-    "Tum Upkaar Sugreevahin Keenha, Ram Milaye Raaj Pad Deenha.",
+    "Laay Sanjeevana Lakhana Jiyaaye, Shri Raghubeer Harashi Ur Laye.",
+    "Raghupati Keenhee Bahut Badaai, Tum Mam Priya Bharatahi Sam Bhai.",
+    "Sahasra Badan Tumharo Yash Gaave, Asa Kahi Shri-Pati Kanth Lagaaave.",
+    "Sanakaadik Brahmaadi Muneesa, Narada Sarada Sahita Ahisa.",
+    "Yama Kuber Digapaal Jahan Te, Kavi Kobid Kahin Sake Kahan Te.",
+    "Tum Upkaar Sugreevahin Keenha, Ram Milaya Raaj Pad Deenha.",
     "Tumharo Mantra Vibhishan Maana, Lankeshwar Bhaye Sab Jag Jaana.",
-    "Jug Sahastra Yojan Par Bhanu, Leelyo Taahi Madhur Phal Jaana.",
+    "Jug Sahastra Yojan Par Bhanu, Leelyo Taahi Madhur Phal Jaano.",
     "Prabhu Mudrika Meli Mukh Maahi, Jaladhi Laanghi Gaye Acharaj Naahi.",
     "Durgam Kaaj Jagat Ke Jete, Sugam Anugrah Tumhare Tete.",
-    "Ram Dware Tum Rakhwaare, Hot Na Aajna Binu Paisare.",
+    "Ram Duware Tum Rakhwaare, Hot Na Aanjna Binu Paisare.",
     "Sab Sukh Lahe Tumhaari Sarna, Tum Rakshak Kahu Ko Darna.",
     "Aapan Tej Samhaaro Aapai, Tino Lok Haank Te Kaampai.",
     "Bhoot Pishach Nikat Nahi Aave, Mahaveer Jab Naam Sunave.",
     "Naasai Rog Hare Sab Peera, Japat Nirantar Hanumat Beera.",
-    "Sankat Te Hanuman Chudhaave, Man, Karm, Vachan Dhyaan Jo Laave.",
+    "Sankat Te Hanuman Chudhaave, Man, Kram, Vachan Dhyaan Jo Laave.",
     "Sab Par Ram Tapasvi Raja, Tinke Kaaj Sakal Tum Saaja.",
     "Aur Manorath Jo Koi Laave, Sohi Amit Jeevan Phal Paave.",
     "Chaaron Yug Parataap Tumhaara, Hai Prasiddh Jagat Ujiyaara.",
@@ -115,9 +115,12 @@ HANUMAN_CHALISA_CHAUPAI = [
     "Jo Shat Baar Paath Kar Koi, Chhootahi Bandhi Maha Sukh Hoi.",
     "Jo Yah Padhe Hanuman Chalisa, Hoy Siddhi Saakhi Gaurisa.",
     "Tulsidas Sadaa Hari Chera, Keejai Naath Hriday Mah Dera.",
+    
+
+    
 ]
 
-HANUMAN_CHALISA_CLOSING = "Pawan Tanay Sankat Haran, Mangal Moorti Roop. Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop."
+HANUMAN_CHALISA_CLOSING = "Pawan Tanay Sankat Haran, Mangal Moorti Roop. Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop. Sreerama Jaya Rama Jaya Jaya Ram(3)"
 
 VISHNU_SAHASRANAMA_STOTRAM = [
     "Om Vaasudevah Param Brahma Paramatma Paraatparah, Param Dhaama Paramjyotih Param Tatwam Param Padam.",
@@ -631,8 +634,8 @@ if mode == "morning":
         '<div class="section">'
         '<h3>💭 Thought</h3>'
         '<p>'
-        'I release the need to be right.<br>'
-        '<em>"What if I\'m 10% wrong?"</em><br>'
+        'I am out of "I am Right Trap".<br>'
+        '<em>"I may be 10% wrong?"</em><br>'
         'Their opinion is data, not verdict.'
         '<span class="bold-line">I think clearly. I think freely.</span>'
         '</p>'
@@ -641,7 +644,7 @@ if mode == "morning":
         '<h3>🕊️ Belief</h3>'
         '<p>'
         'I am worthy of my target — month by month.<br>'
-        'I am reliable to authority.<br>'
+        'I am reliable and fearless to authority.<br>'
         'I am a peaceful resolver.<br>'
         'I am valuable. My voice matters.'
         '<span class="bold-line">I believe in my becoming.</span>'
@@ -650,7 +653,7 @@ if mode == "morning":
         '<div class="vow">'
         '<h3>✦ Today\'s Vow ✦</h3>'
         '<p>'
-        'I am not faking. I am becoming.<br>'
+        'Fake it till make it.<br>'
         'Every breath — a reset.<br>'
         'Every word — a seed.<br>'
         'Every action — a brick.<br>'
@@ -682,8 +685,8 @@ elif mode == "afternoon":
         '</div>'
         '<div class="section">'
         '<h3>🎯 My HRCM</h3>'
-        '<div class="hrcm-row"><span class="k">🌿 Health</span><span>Peace is my priority.</span></div>'
-        '<div class="hrcm-row"><span class="k">🤝 Relationship</span><span>Respect. Listen. Love.</span></div>'
+        '<div class="hrcm-row"><span class="k">🌿 Health</span><span>Peace, No anger & No overthinking is my priority.</span></div>'
+        '<div class="hrcm-row"><span class="k">🤝 Relationship</span><span>Respect. Listen. Love & most importantly FORGIVE.</span></div>'
         '<div class="hrcm-row"><span class="k">💼 Career</span><span>I solve problems fearlessly.</span></div>'
         '<div class="hrcm-row"><span class="k">💰 Money</span><span>My monthly target — tracked and hit.</span></div>'
         '</div>'
@@ -693,6 +696,7 @@ elif mode == "afternoon":
         'Have I gossiped today? <em>Return to focus.</em><br>'
         'Have I reacted? <em>Return to calm.</em><br>'
         'Have I moved toward this month\'s target? <em>Take one step now.</em>'
+        'To whom I forgive today\'s target? <em>Think some positive for him/her.</em>'
         '<span class="bold-line">Realign. Resume. Rise.</span>'
         '</p>'
         '</div>'
