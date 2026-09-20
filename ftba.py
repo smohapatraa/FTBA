@@ -5,405 +5,120 @@ from datetime import datetime
 # PAGE CONFIG
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="Pocket Affirmation Card",
+    page_title="Pocket Affirmation · Sacred Daily Ritual",
     page_icon="🌿",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
 
 # ─────────────────────────────────────────────
-# CUSTOM CSS — Cream, Elegant, Sacred Feel
+# EMBEDDED SACRED TEXTS
 # ─────────────────────────────────────────────
-st.markdown("""
-<style>
-    /* Main background — cream */
-    .stApp {
-        background: linear-gradient(180deg, #FFF8E7 0%, #FDF3DC 100%);
-    }
 
-    /* Main container */
-    .main .block-container {
-        max-width: 720px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
+HANUMAN_CHALISA_DOHA = {
+    "Doha 1": "Shri Guru Charan Saroj Raj, Nij Manu Mukur Sudhaari. Baranau Raghubar Vimal Jas, Jo Daayak Phal Chari.",
+    "Doha 2": "Buddhiheen Tanu Jaankai, Sumiron Pavan-Kumar. Bal Buddhi Vidya Dehu Mohin, Harhu Kalesh Vikaari.",
+}
 
-    /* Header card */
-    .header-card {
-        background: #FFFFFF;
-        border: 2px solid #D4AF37;
-        border-radius: 16px;
-        padding: 24px 20px;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
-        margin-bottom: 24px;
-    }
-    .header-title {
-        font-family: Georgia, serif;
-        font-size: 1.5rem;
-        color: #4A3F2A;
-        letter-spacing: 2px;
-        margin: 0;
-        font-weight: 700;
-    }
-    .header-sub {
-        font-family: Georgia, serif;
-        font-size: 0.95rem;
-        color: #8B7355;
-        font-style: italic;
-        margin-top: 8px;
-    }
+HANUMAN_CHALISA_CHAUPAI = [
+    "Jai Hanuman Gyaan Gun Saagar, Jai Kapis Tihun Lok Ujaagar.",
+    "Ram Doot Atulit Bal Dhaama, Anjani-Putra Pavan-Sut Naama.",
+    "Mahabeer Vikram Bajrangi, Kumati Nivaar Sumati Ke Sangi.",
+    "Kanchan Varn Biraj Subesa, Kanan Kundal Kunchit Kesa.",
+    "Haath Vajra Au Dhwaja Birajai, Kaanhe Moonj Janeu Sajaai.",
+    "Shankar Suvan Kesari Nandan, Tej Pratap Maha Jag Vandan.",
+    "Vidyaavaan Guni Ati Chatur, Ram Kaaj Karibe Ko Aatur.",
+    "Prabhu Charitra Sunibe Ko Rasiya, Ram Lakhan Sita Man Basiya.",
+    "Sookshm Roop Dhari Siyaahi Dikhawa, Vikat Roop Dhari Lank Jaraawa.",
+    "Bheem Roop Dhari Asur Sanhaare, Ramchandra Ke Kaaj Sanwaare.",
+    "Laay Sanjeevani Lakhana Jiyaaye, Shri Raghubeer Harsh Ur Laye.",
+    "Raghupati Keenee Bahut Badaai, Tum Mam Priya Bharatahi Sam Bhai.",
+    "Sahas Badan Tumharo Yash Gaave, As Kahi Shri-Pati Kanth Lagaaave.",
+    "Sanakaadik Brahmaadi Muneesa, Narad Saraswati Sahit Ahisa.",
+    "Yam Kuber Dikpaal Jahan Te, Kavi Kobid Kahin Sake Kahan Te.",
+    "Tum Upkaar Sugreevahin Keenha, Ram Milaye Raaj Pad Deenha.",
+    "Tumharo Mantra Vibhishan Maana, Lankeshwar Bhaye Sab Jag Jaana.",
+    "Jug Sahastra Yojan Par Bhanu, Leelyo Taahi Madhur Phal Jaana.",
+    "Prabhu Mudrika Meli Mukh Maahi, Jaladhi Laanghi Gaye Acharaj Naahi.",
+    "Durgam Kaaj Jagat Ke Jete, Sugam Anugrah Tumhare Tete.",
+    "Ram Dware Tum Rakhwaare, Hot Na Aajna Binu Paisare.",
+    "Sab Sukh Lahe Tumhaari Sarna, Tum Rakshak Kahu Ko Darna.",
+    "Aapan Tej Samhaaro Aapai, Tino Lok Haank Te Kaampai.",
+    "Bhoot Pishach Nikat Nahi Aave, Mahaveer Jab Naam Sunave.",
+    "Naasai Rog Hare Sab Peera, Japat Nirantar Hanumat Beera.",
+    "Sankat Te Hanuman Chudhaave, Man, Karm, Vachan Dhyaan Jo Laave.",
+    "Sab Par Ram Tapasvi Raja, Tinke Kaaj Sakal Tum Saaja.",
+    "Aur Manorath Jo Koi Laave, Sohi Amit Jeevan Phal Paave.",
+    "Chaaron Yug Parataap Tumhaara, Hai Prasiddh Jagat Ujiyaara.",
+    "Saadhu Sant Ke Tum Rakhwaare, Asur Nikandan Ram Dulaare.",
+    "Asht Siddhi Nav Nidhi Ke Daata, As Var Deen Jaanaki Maata.",
+    "Ram Rasayan Tumhare Paasa, Sadaa Raho Raghupati Ke Daasa.",
+    "Tumhare Bhajan Ram Ko Paave, Janam Janam Ke Dukh Bisraave.",
+    "Antkaal Raghubar Pur Jaai, Jahan Janm Haribhakt Kahai.",
+    "Aur Devta Chit Na Dharai, Hanumat Sei Sarv Sukh Karai.",
+    "Sankat Katai Mite Sab Peera, Jo Sumirai Hanumat Balbeera.",
+    "Jai Jai Jai Hanuman Gosai, Kripa Karahu Gurudev Ki Naai.",
+    "Jo Shat Baar Paath Kar Koi, Chhootahi Bandhi Maha Sukh Hoi.",
+    "Jo Yah Padhe Hanuman Chalisa, Hoy Siddhi Saakhi Gaurisa.",
+    "Tulsidas Sadaa Hari Chera, Keejai Naath Hriday Mah Dera.",
+]
 
-    /* Section cards */
-    .section-card {
-        background: #FFFFFF;
-        border-left: 5px solid #D4AF37;
-        border-radius: 12px;
-        padding: 18px 22px;
-        margin-bottom: 16px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-    }
-    .section-title {
-        font-family: Georgia, serif;
-        font-size: 1.05rem;
-        color: #8B6F2A;
-        letter-spacing: 1.5px;
-        font-weight: 700;
-        margin: 0 0 10px 0;
-    }
-    .section-body {
-        font-family: Georgia, serif;
-        font-size: 0.98rem;
-        color: #3D3323;
-        line-height: 1.7;
-        margin: 0;
-    }
-    .section-body em {
-        color: #8B6F2A;
-        font-style: italic;
-    }
-    .bold-line {
-        color: #4A3F2A;
-        font-weight: 700;
-        display: block;
-        margin-top: 8px;
-    }
+HANUMAN_CHALISA_CLOSING = "Pawan Tanay Sankat Haran, Mangal Moorti Roop. Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop."
 
-    /* HRCM grid */
-    .hrcm-item {
-        font-family: Georgia, serif;
-        font-size: 0.95rem;
-        color: #3D3323;
-        padding: 6px 0;
-        border-bottom: 1px dashed #E8D9A8;
-    }
-    .hrcm-item:last-child { border-bottom: none; }
-    .hrcm-key { color: #8B6F2A; font-weight: 700; }
+VISHNU_SAHASRANAMA_STOTRAM = [
+    "Om Vaasudevah Param Brahma Paramatma Paraatparah, Param Dhaama Paramjyotih Param Tatwam Param Padam.",
+    "Parah Shiva Parodhyeyah Param Jnaanam Paraagatih, Paramarthah Parashreshthah Paraanandah Parodayah.",
+    "Parovyaktaaparam Vyoma Paramaadthah Pareshwarah, Niraamayo Nirvikaaro Nirvikalpo Niraashrayah.",
+    "Niranjano Niraalambo Nirlopo Niravagrahah, Nirguno Nishkalonantobhayochintyochalochintah.",
+    "Ateendrayomitopaaro Nityoneehovyayokshayah, Sarvagjnah Sarvagah Sarvabhavanah.",
+    "Sarvashastaa Sarvasaakshi Pujyah Sarvasya Sarvadruk, Sarva Shaktih Sarvasaarah Sarvatmaa Sarvatomukhah.",
+    "Sarvavaasah Sarvarupah Sarvaadih Sarva Duhkhahaa, Sarvaarthah Sarvatobhadrah Sarvakaaranakaaranam.",
+    "Sarvaatishayitah Sarva-adhyakshah Sarveshvareshwarah, Shadvimshako Maha Vishnurmahaaguhyo Maha Vibhuh.",
+    "Nityodito Nityayukto Nityaanandah Sanaatanah, Maayaapatiryogapatih Kaivalyapatiraatmabhuh.",
+    "Janma-mrityu jaraateetah Kaalaateeto Bhavaatigah, Purnah Satyah Shuddha Buddha Swarupo Nitya-achintan mayah.",
+    "Yogapriyo Yogagamyo Bhavabandhaikamochakah, Puraanapurushah Pratyak-chaitanyah Purushottamah.",
+    "Vedaanantavedyo Durjayastraapatraya vivarjitah.",
+]
 
-    /* Vow card */
-    .vow-card {
-        background: linear-gradient(135deg, #FFFDF6 0%, #FBF0D2 100%);
-        border: 2px dashed #D4AF37;
-        border-radius: 12px;
-        padding: 20px 22px;
-        margin-bottom: 16px;
-        text-align: center;
-    }
-    .vow-title {
-        font-family: Georgia, serif;
-        color: #8B6F2A;
-        font-size: 1.05rem;
-        letter-spacing: 1.5px;
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-    .vow-body {
-        font-family: Georgia, serif;
-        color: #4A3F2A;
-        font-size: 0.98rem;
-        line-height: 1.8;
-        margin: 0;
-    }
-
-    /* Footer seal */
-    .footer-seal {
-        background: #4A3F2A;
-        color: #FFF8E7;
-        border-radius: 12px;
-        padding: 22px 20px;
-        text-align: center;
-        margin-top: 24px;
-        box-shadow: 0 6px 24px rgba(74, 63, 42, 0.25);
-    }
-    .footer-seal-title {
-        font-family: Georgia, serif;
-        font-size: 1.15rem;
-        letter-spacing: 2px;
-        font-weight: 700;
-        margin: 0;
-    }
-    .footer-seal-body {
-        font-family: Georgia, serif;
-        font-size: 0.92rem;
-        font-style: italic;
-        color: #E8D9A8;
-        margin-top: 10px;
-        line-height: 1.6;
-    }
-    .footer-sign {
-        font-family: Georgia, serif;
-        font-size: 0.9rem;
-        color: #D4AF37;
-        margin-top: 12px;
-        font-style: italic;
-    }
-
-    /* Greeting banner */
-    .greeting {
-        text-align: center;
-        font-family: Georgia, serif;
-        color: #8B6F2A;
-        font-size: 1rem;
-        font-style: italic;
-        margin-bottom: 18px;
-    }
-
-    /* Hide Streamlit default footer */
-    footer { visibility: hidden; }
-    #MainMenu { visibility: hidden; }
-
-    /* Print button styling */
-    .stButton > button {
-        background: #4A3F2A;
-        color: #FFF8E7;
-        border: none;
-        border-radius: 10px;
-        padding: 12px 24px;
-        font-family: Georgia, serif;
-        font-size: 1rem;
-        letter-spacing: 1px;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
-    .stButton > button:hover {
-        background: #8B6F2A;
-        color: #FFFFFF;
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(74, 63, 42, 0.3);
-    }
-</style>
-""", unsafe_allow_html=True)
+VISHNU_SAHASRANAMA_SLOKAS = [
+    "Om Namo Naraayanaaya Purushaaya Mahatmaney, Vishuddha Satwaaya Maha Hamsaaya Dheemahi Tanno Devah prachodayat.",
+    "Kleem Krishnaaya vidmahey, Hreem Raamaaya dheemahey, Tanno Devah prachodayaat.",
+    "Sham Nrisimhaaya vidmahey, Shrikanthaaya dheemahi, Tanno Vishnu prachodayat.",
+    "Om Vasudaevaaya vidmahey Devaki sutaaya dheemahi, Tannah Krishnah prachodayat.",
+]
 
 # ─────────────────────────────────────────────
-# GREETING BASED ON TIME OF DAY
+# IMAGE LIBRARY — Free from Unsplash & Pexels
 # ─────────────────────────────────────────────
-hour = datetime.now().hour
-if hour < 12:
-    greeting = "🌅 Good Morning — Begin with stillness."
-elif hour < 17:
-    greeting = "☀️ Good Afternoon — Pause. Breathe. Return."
-else:
-    greeting = "🌙 Good Evening — Reflect and rest."
-
-st.markdown(f'<p class="greeting">{greeting}</p>', unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# HEADER
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="header-card">
-    <p class="header-title">✦ POCKET AFFIRMATION CARD ✦</p>
-    <p class="header-sub">Fold. Carry. Read 3× Daily.</p>
-    <p class="header-sub" style="margin-top: 14px; color: #4A3F2A; font-style: normal; font-weight: 700;">
-        I AM BECOMING THE PERSON<br>I WAS BORN TO BE.
-    </p>
-    <p class="header-sub" style="font-size: 0.85rem;">
-        Not by force. Not by luck. By daily, deliberate design.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: FEELING
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">🌿 FEELING</p>
-    <p class="section-body">
-        I feel, but I am not my feelings.<br>
-        Anxiety visits — I don't let it stay.<br>
-        Fear knocks — I open, and it shrinks.
-        <span class="bold-line">I am calm. I am centered. I am still.</span>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: THOUGHT
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">💭 THOUGHT</p>
-    <p class="section-body">
-        I release the need to be right.<br>
-        <em>"What if I'm 10% wrong?"</em><br>
-        Their opinion is data, not verdict.
-        <span class="bold-line">I think clearly. I think freely.</span>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: BELIEF
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">🕊️ BELIEF</p>
-    <p class="section-body">
-        I am worthy of ₹2 Lakhs/month.<br>
-        I am reliable to authority.<br>
-        I am a peaceful resolver.<br>
-        I am valuable. My voice matters.
-        <span class="bold-line">I believe in my becoming.</span>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: ACTION
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">⚡ ACTION</p>
-    <p class="section-body">
-        I speak once — clearly, kindly.<br>
-        I don't gossip — I elevate.<br>
-        I face authority with respect, not fear.<br>
-        I take one fearless step daily.
-        <span class="bold-line">I act. I build. I become.</span>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: HRCM
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">🎯 MY HRCM</p>
-    <div class="hrcm-item"><span class="hrcm-key">🌿 Health</span> → Peace is my priority.</div>
-    <div class="hrcm-item"><span class="hrcm-key">🤝 Relationship</span> → Respect. Listen. Love.</div>
-    <div class="hrcm-item"><span class="hrcm-key">💼 Career</span> → I solve problems fearlessly.</div>
-    <div class="hrcm-item"><span class="hrcm-key">💰 Money</span> → ₹2L/month. Baleno. Self-reliant.</div>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: DAILY VOW
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="vow-card">
-    <p class="vow-title">✦ DAILY VOW ✦</p>
-    <p class="vow-body">
-        I am not faking. I am becoming.<br>
-        Every breath — a reset.<br>
-        Every word — a seed.<br>
-        Every action — a brick.<br>
-        <strong>Building my Baleno life, one calm day at a time.</strong>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: MORNING
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">🌅 MORNING</p>
-    <p class="section-body">
-        Today I choose:<br>
-        Peace over proving.<br>
-        Clarity over confusion.<br>
-        Courage over comfort.<br>
-        Service over self-doubt.
-        <span class="bold-line">One step closer to ₹2L. One step closer to me.</span>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# SECTION: NIGHT
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="section-card">
-    <p class="section-title">🌙 NIGHT</p>
-    <p class="section-body">
-        I did my best.<br>
-        I forgive my stumbles.<br>
-        I release what I can't control.<br>
-        I rest in gratitude.
-        <span class="bold-line">Tomorrow, I rise calmer, clearer, stronger.</span>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# FOOTER SEAL
-# ─────────────────────────────────────────────
-st.markdown("""
-<div class="footer-seal">
-    <p class="footer-seal-title">✦ I AM THE AUTHOR OF MY LIFE ✦</p>
-    <p class="footer-seal-body">
-        The pen is in my hand. The page is blank.<br>
-        I write a beautiful story — starting now.
-    </p>
-    <p class="footer-sign">— Your Future Self</p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────
-# INTERACTIVE: 30-SECOND RITUAL TRACKER
-# ─────────────────────────────────────────────
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown("### 🌿 30-Second Daily Ritual")
-
-col1, col2, col3 = st.columns(3)
-with col1:
-    if st.button("🌅 Morning\nRead Aloud", use_container_width=True):
-        st.success("✅ Morning ritual complete. You are calm.")
-with col2:
-    if st.button("☀️ Midday\nCheck HRCM", use_container_width=True):
-        st.info("🧭 Ask: Am I living my HRCM today?")
-with col3:
-    if st.button("🌙 Night\nGratitude", use_container_width=True):
-        st.success("🌙 One breath of gratitude. Rest well.")
-
-# ─────────────────────────────────────────────
-# STREAK COUNTER (Session-based)
-# ─────────────────────────────────────────────
-if "streak" not in st.session_state:
-    st.session_state.streak = 0
-
-if st.button("✨ Mark Today Complete (+1 Streak)", use_container_width=True):
-    st.session_state.streak += 1
-    st.balloons()
-    st.success(f"🔥 Streak: {st.session_state.streak} day(s). Keep becoming!")
-
-st.caption(f"🔥 Current Streak: **{st.session_state.streak} day(s)**")
-
-# ─────────────────────────────────────────────
-# PRINTABLE VIEW TOGGLE
-# ─────────────────────────────────────────────
-with st.expander("🖨️ Print / Save as PDF Instructions"):
-    st.markdown("""
-    **To save this as PDF:**
-    1. Press `Ctrl + P` (Windows) or `Cmd + P` (Mac)
-    2. Choose **Save as PDF**
-    3. Paper size: **A6 or A5** (pocket fit)
-    4. Margins: **Narrow**
-    5. Enable **Background graphics**
-    6. Save & print 3 copies → wallet, desk, car
-    """)
-
-st.markdown("<br>", unsafe_allow_html=True)
-st.caption("🌿 Speak it until you believe it. Believe it until you live it. Live it until you become it.")
+IMAGES = {
+    "morning": {
+        "hero": "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1200&q=80",
+        "caption": "Sunrise over calm waters · Photo by Federico Respini on Unsplash",
+        "accent": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
+        "accent_caption": "Morning meditation · Photo by Jared Rice on Unsplash",
+    },
+    "afternoon": {
+        "hero": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&q=80",
+        "caption": "Open field, clear sky · Photo by Dawid Zawiła on Unsplash",
+        "accent": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80",
+        "accent_caption": "Focused workspace · Photo by Andrew Neel on Pexels",
+    },
+    "night": {
+        "hero": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&q=80",
+        "caption": "Starry night sky · Photo by Jeremy Thomas on Unsplash",
+        "accent": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80",
+        "accent_caption": "Mountain under stars · Photo by Vincentiu Solomon on Unsplash",
+    },
+    "hanuman": {
+        "hero": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&q=80",
+        "caption": "Temple lamps · Photo by Ashwini Chaudhary on Unsplash",
+        "accent": "https://images.unsplash.com/photo-1600240644455-3edc55c375fe?w=800&q=80",
+        "accent_caption": "Hanuman temple · Photo by Ashutosh Gaur on Unsplash",
+    },
+    "vishnu": {
+        "hero": "https://images.unsplash.com/photo-1545121649-0c8e0c8c8c8c?w=1200&q=80",
+        "caption": "Sacred geometry · Photo by Unsplash",
+        "accent": "https://images.unsplash.com/photo-1561365452-adb940139ffa?w=800&q=80",
+        "accent_caption": "Temple architecture · Photo by Unsplash",
+    },
+}
