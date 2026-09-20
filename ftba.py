@@ -16,6 +16,59 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────
+# MONTHLY FINANCIAL TARGETS
+# ─────────────────────────────────────────────
+# From Oct 2026 (₹18L) growing by ₹1L each month through May 2029 (₹49L)
+MONTHLY_TARGETS = [
+    ("2026-10", "Oct 2026", 18_00_000),
+    ("2026-11", "Nov 2026", 19_00_000),
+    ("2026-12", "Dec 2026", 20_00_000),
+    ("2027-01", "Jan 2027", 21_00_000),
+    ("2027-02", "Feb 2027", 22_00_000),
+    ("2027-03", "Mar 2027", 23_00_000),
+    ("2027-04", "Apr 2027", 24_00_000),
+    ("2027-05", "May 2027", 25_00_000),
+    ("2027-06", "Jun 2027", 26_00_000),
+    ("2027-07", "Jul 2027", 27_00_000),
+    ("2027-08", "Aug 2027", 28_00_000),
+    ("2027-09", "Sep 2027", 29_00_000),
+    ("2027-10", "Oct 2027", 30_00_000),
+    ("2027-11", "Nov 2027", 31_00_000),
+    ("2027-12", "Dec 2027", 32_00_000),
+    ("2028-01", "Jan 2028", 33_00_000),
+    ("2028-02", "Feb 2028", 34_00_000),
+    ("2028-03", "Mar 2028", 35_00_000),
+    ("2028-04", "Apr 2028", 36_00_000),
+    ("2028-05", "May 2028", 37_00_000),
+    ("2028-06", "Jun 2028", 38_00_000),
+    ("2028-07", "Jul 2028", 39_00_000),
+    ("2028-08", "Aug 2028", 40_00_000),
+    ("2028-09", "Sep 2028", 41_00_000),
+    ("2028-10", "Oct 2028", 42_00_000),
+    ("2028-11", "Nov 2028", 43_00_000),
+    ("2028-12", "Dec 2028", 44_00_000),
+    ("2029-01", "Jan 2029", 45_00_000),
+    ("2029-02", "Feb 2029", 46_00_000),
+    ("2029-03", "Mar 2029", 47_00_000),
+    ("2029-04", "Apr 2029", 48_00_000),
+    ("2029-05", "May 2029", 49_00_000),
+]
+
+def format_inr(n):
+    """Format integer rupees as Indian comma style: 18,00,000"""
+    s = str(int(n))
+    if len(s) <= 3:
+        return s
+    head, tail = s[:-3], s[-3:]
+    parts = []
+    while len(head) > 2:
+        parts.insert(0, head[-2:])
+        head = head[:-2]
+    if head:
+        parts.insert(0, head)
+    return ",".join(parts) + "," + tail
+
+# ─────────────────────────────────────────────
 # EMBEDDED SACRED TEXTS
 # ─────────────────────────────────────────────
 HANUMAN_CHALISA_DOHA = {
@@ -123,6 +176,12 @@ IMAGES = {
         "caption": "Temple architecture · Photo by Unsplash",
         "accent": "https://images.unsplash.com/photo-1545121649-0c8e0c8c8c8c?w=800&q=80",
         "accent_caption": "Sacred geometry · Photo by Unsplash",
+    },
+    "targets": {
+        "hero": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=80",
+        "caption": "Charting the climb · Photo by Lukas on Pexels",
+        "accent": "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80",
+        "accent_caption": "Coins stacked · Photo by Micheile Henderson on Unsplash",
     },
 }
 
@@ -254,7 +313,6 @@ st.markdown(f"""
         --shadow-lg:    {T['shadow_lg']};
     }}
 
-    /* Base font size — larger */
     html, body, [class*="css"] {{
         font-family: 'Inter', sans-serif;
         font-size: 17px;
@@ -424,7 +482,6 @@ st.markdown(f"""
         border-color: var(--gold);
     }}
 
-    /* General buttons (play, complete, reset) */
     .stButton > button {{
         background: var(--card);
         color: var(--ink);
@@ -657,6 +714,94 @@ st.markdown(f"""
         font-size: 1.2rem;
     }}
 
+    /* ═══ TARGETS TABLE ═══ */
+    .targets-table {{
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        margin-top: 8px;
+    }}
+    .targets-table th {{
+        text-align: left;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.15rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 700;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--gold-pale);
+    }}
+    .targets-table td {{
+        padding: 12px 14px;
+        border-bottom: 1px dashed var(--gold-pale);
+        color: var(--ink-soft);
+    }}
+    .targets-table tr:last-child td {{
+        border-bottom: none;
+    }}
+    .targets-table .month-col {{
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.2rem;
+        color: var(--ink);
+        font-weight: 600;
+    }}
+    .targets-table .amount-col {{
+        font-family: 'Inter', sans-serif;
+        font-size: 1.15rem;
+        color: var(--gold);
+        font-weight: 600;
+        text-align: right;
+        letter-spacing: 0.3px;
+    }}
+    .targets-table tr.current td {{
+        background: rgba(232, 185, 106, 0.10);
+        border-radius: 8px;
+    }}
+    .targets-table tr.current .month-col {{
+        color: var(--gold);
+    }}
+    .targets-table tr.current .amount-col {{
+        color: var(--gold-soft);
+        font-weight: 700;
+    }}
+    .targets-table tr.past td {{
+        opacity: 0.55;
+    }}
+
+    .target-summary {{
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin: 8px 0 20px 0;
+    }}
+    .target-chip {{
+        flex: 1;
+        min-width: 160px;
+        background: var(--card);
+        border: 1px solid var(--gold-pale);
+        border-radius: 14px;
+        padding: 16px 20px;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+    }}
+    .target-chip .label {{
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 600;
+        margin-bottom: 6px;
+    }}
+    .target-chip .value {{
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.6rem;
+        color: var(--ink);
+        font-weight: 700;
+    }}
+
     /* Streamlit selectbox and captions */
     .stSelectbox label {{
         font-size: 1rem !important;
@@ -715,7 +860,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# RITUAL SELECTOR — 5 BUTTONS
+# RITUAL SELECTOR — 6 BUTTONS
 # ─────────────────────────────────────────────
 st.markdown('<div class="ritual-label">Choose Your Moment</div>', unsafe_allow_html=True)
 
@@ -747,6 +892,14 @@ with col5:
         st.session_state.mode = "vishnu"
         st.rerun()
 
+st.markdown('<div class="ritual-label" style="margin-top:20px;">Your Future</div>', unsafe_allow_html=True)
+
+col6 = st.columns(1)[0]
+with col6:
+    if st.button("🎯\nMonthly Targets · Oct 2026 → May 2029", key="btn_targets", use_container_width=True):
+        st.session_state.mode = "targets"
+        st.rerun()
+
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
@@ -761,6 +914,7 @@ EYEBROW = {
     "night":     "🌙 Night Reflection",
     "hanuman":   "🙏 Hanuman Chalisa",
     "vishnu":    "🕉️ Vishnu Sahasranama",
+    "targets":   "🎯 Monthly Financial Targets",
 }[mode]
 
 HEADLINE = {
@@ -769,6 +923,7 @@ HEADLINE = {
     "night":     'Rest now. <span class="accent">You did well</span>.',
     "hanuman":   'Forty verses of <span class="accent">strength</span>.',
     "vishnu":    'The thousand <span class="accent">names</span>.',
+    "targets":   'The climb from <span class="accent">18 to 49 Lakhs</span>.',
 }[mode]
 
 st.markdown(f"""
@@ -876,7 +1031,7 @@ if mode == "morning":
     <div class="section">
         <h3>🕊️ Belief</h3>
         <p>
-            I am worthy of ₹2 Lakhs/month.<br>
+            I am worthy of my target — month by month.<br>
             I am reliable to authority.<br>
             I am a peaceful resolver.<br>
             I am valuable. My voice matters.
@@ -923,7 +1078,7 @@ elif mode == "afternoon":
         <div class="hrcm-row"><span class="k">🌿 Health</span><span>Peace is my priority.</span></div>
         <div class="hrcm-row"><span class="k">🤝 Relationship</span><span>Respect. Listen. Love.</span></div>
         <div class="hrcm-row"><span class="k">💼 Career</span><span>I solve problems fearlessly.</span></div>
-        <div class="hrcm-row"><span class="k">💰 Money</span><span>₹2L/month. Baleno. Self-reliant.</span></div>
+        <div class="hrcm-row"><span class="k">💰 Money</span><span>My monthly target — tracked and hit.</span></div>
     </div>
 
     <div class="section">
@@ -931,7 +1086,7 @@ elif mode == "afternoon":
         <p>
             Have I gossiped today? <em>Return to focus.</em><br>
             Have I reacted? <em>Return to calm.</em><br>
-            Have I moved toward ₹2L? <em>Take one step now.</em>
+            Have I moved toward this month's target? <em>Take one step now.</em>
             <span class="bold-line">Realign. Resume. Rise.</span>
         </p>
     </div>
@@ -1094,6 +1249,142 @@ elif mode == "vishnu":
     st.caption("Note: The complete Vishnu Sahasranama contains 1,000 names across 107 verses. This is a representative excerpt.")
 
 # ─────────────────────────────────────────────
+# CONTENT — TARGETS
+# ─────────────────────────────────────────────
+elif mode == "targets":
+    st.markdown("""
+    <div class="card card-hero">
+        <div class="badge">🎯 Monthly Targets</div>
+        <h2 class="salutation">The <span class="accent">Climb</span>.</h2>
+        <p class="prompt">From ₹18 Lakhs in Oct 2026 to ₹49 Lakhs in May 2029. One month at a time.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Determine current month
+    now = datetime.now()
+    current_key = now.strftime("%Y-%m")
+
+    # Summary chips
+    first_label, first_amount = MONTHLY_TARGETS[0][1], MONTHLY_TARGETS[0][2]
+    last_label, last_amount = MONTHLY_TARGETS[-1][1], MONTHLY_TARGETS[-1][2]
+
+    # Find current or next target
+    current_entry = None
+    next_entry = None
+    for key, label, amount in MONTHLY_TARGETS:
+        if key == current_key:
+            current_entry = (key, label, amount)
+            break
+        if key > current_key:
+            next_entry = (key, label, amount)
+            break
+
+    active_entry = current_entry or next_entry or MONTHLY_TARGETS[0]
+
+    st.markdown(f"""
+    <div class="target-summary">
+        <div class="target-chip">
+            <div class="label">Start</div>
+            <div class="value">₹{format_inr(first_amount)}</div>
+            <div style="font-size:0.9rem; color:var(--ink-soft); margin-top:4px;">{first_label}</div>
+        </div>
+        <div class="target-chip">
+            <div class="label">{'This Month' if current_entry else 'Next Target'}</div>
+            <div class="value">₹{format_inr(active_entry[2])}</div>
+            <div style="font-size:0.9rem; color:var(--ink-soft); margin-top:4px;">{active_entry[1]}</div>
+        </div>
+        <div class="target-chip">
+            <div class="label">Final</div>
+            <div class="value">₹{format_inr(last_amount)}</div>
+            <div style="font-size:0.9rem; color:var(--ink-soft); margin-top:4px;">{last_label}</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Build table rows
+    rows_html = ""
+    for key, label, amount in MONTHLY_TARGETS:
+        row_class = ""
+        if key == current_key:
+            row_class = "current"
+        elif key < current_key:
+            row_class = "past"
+        rows_html += f"""
+        <tr class="{row_class}">
+            <td class="month-col">{label}</td>
+            <td class="amount-col">₹{format_inr(amount)}</td>
+        </tr>
+        """
+
+    st.markdown(f"""
+    <div class="section">
+        <h3>📅 Month-by-Month Ladder</h3>
+        <table class="targets-table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th style="text-align:right;">Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                {rows_html}
+            </tbody>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Growth chart
+    chart_labels = [label for _, label, _ in MONTHLY_TARGETS]
+    chart_values = [amount for _, _, amount in MONTHLY_TARGETS]
+
+    fig_targets = go.Figure()
+    fig_targets.add_trace(go.Scatter(
+        x=chart_labels,
+        y=chart_values,
+        mode="lines+markers",
+        line=dict(color=T["gold"], width=3, shape="spline"),
+        marker=dict(size=7, color=T["gold_soft"], line=dict(color=T["gold"], width=2)),
+        fill="tozeroy",
+        fillcolor="rgba(232, 185, 106, 0.12)",
+        hovertemplate="<b>%{x}</b><br>Target: ₹%{y:,.0f}<extra></extra>",
+    ))
+
+    fig_targets.update_layout(
+        height=380,
+        margin=dict(l=40, r=20, t=20, b=60),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Inter, sans-serif", size=12, color=T["ink_soft"]),
+        xaxis=dict(
+            showgrid=False,
+            tickfont=dict(size=10, color=T["ink_soft"]),
+            tickangle=-45,
+        ),
+        yaxis=dict(
+            showgrid=True,
+            gridcolor="rgba(232, 185, 106, 0.10)",
+            tickfont=dict(size=11, color=T["ink_soft"]),
+            tickprefix="₹",
+            tickformat=",",
+        ),
+        showlegend=False,
+    )
+
+    st.markdown('<div class="ritual-label" style="margin-top:24px;">📈 Growth Curve</div>', unsafe_allow_html=True)
+    st.plotly_chart(fig_targets, use_container_width=True, config={"displayModeBar": False})
+
+    st.markdown("""
+    <div class="vow" style="margin-top:24px;">
+        <h3>✦ One Month at a Time ✦</h3>
+        <p>
+            I do not climb the whole mountain today.<br>
+            I climb one month. One target. One step.<br>
+            <strong>₹18 Lakhs. Then ₹19. Then ₹20. Then free.</strong>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────
 # ACCENT IMAGE
 # ─────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -1110,31 +1401,37 @@ LABELS = {
     "night":     "✨ I've Completed My Night Reflection",
     "hanuman":   "🙏 I've Recited the Hanuman Chalisa",
     "vishnu":    "🕉️ I've Chanted the Vishnu Sahasranama",
+    "targets":   "🎯 I've Reviewed My Monthly Targets",
 }
 
 today = datetime.now().date().isoformat()
 
-if not st.session_state.completed[mode]:
-    if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
-        st.session_state.completed[mode] = True
-        st.session_state.streak += 1
-        st.session_state.completion_history[today] = st.session_state.completion_history.get(today, 0) + 1
-        st.balloons()
-        st.rerun()
+if mode != "targets":
+    if not st.session_state.completed.get(mode, False):
+        if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
+            st.session_state.completed[mode] = True
+            st.session_state.streak += 1
+            st.session_state.completion_history[today] = st.session_state.completion_history.get(today, 0) + 1
+            st.balloons()
+            st.rerun()
+    else:
+        st.success(f"✅ {mode.capitalize()} complete. Well done.")
+        if st.button("🔄 Reset This Session", use_container_width=True, key=f"reset_{mode}"):
+            st.session_state.completed[mode] = False
+            st.session_state.streak = max(0, st.session_state.streak - 1)
+            if today in st.session_state.completion_history:
+                st.session_state.completion_history[today] = max(0, st.session_state.completion_history[today] - 1)
+            st.rerun()
 else:
-    st.success(f"✅ {mode.capitalize()} complete. Well done.")
-    if st.button("🔄 Reset This Session", use_container_width=True, key=f"reset_{mode}"):
-        st.session_state.completed[mode] = False
-        st.session_state.streak = max(0, st.session_state.streak - 1)
-        if today in st.session_state.completion_history:
-            st.session_state.completion_history[today] = max(0, st.session_state.completion_history[today] - 1)
-        st.rerun()
+    if st.button(LABELS["targets"], use_container_width=True, key="complete_targets"):
+        st.balloons()
+        st.success("🎯 Targets reviewed. Keep climbing.")
 
 # ─────────────────────────────────────────────
 # STREAK + PROGRESS
 # ─────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
-done_count = sum(st.session_state.completed.values())
+done_count = sum(1 for k, v in st.session_state.completed.items() if v)
 
 c1, c2 = st.columns(2)
 with c1:
