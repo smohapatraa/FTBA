@@ -142,6 +142,38 @@ VISHNU_SAHASRANAMA_SLOKAS = [
 ]
 
 # ─────────────────────────────────────────────
+# BALENO CNG AGS — FACTS FROM SEARCH
+# ─────────────────────────────────────────────
+BALENO_FACTS = {
+    "title": "Baleno CNG AGS",
+    "subtitle": "India's first CNG + Automatic in a Maruti hatchback [citation:11]",
+    "exterior": [
+        ("Signature NEXWave Grille", "Chrome slats, Suzuki logo moved to bonnet [citation:13]"),
+        ("NEXTre LED DRLs", "Tri-arrow daytime running lamps [citation:8]"),
+        ("LED Projector Headlamps", "Zeta and Alpha trims [citation:2]"),
+        ("Precision-Cut Alloys", "16-inch dual-tone on Alpha [citation:13]"),
+        ("NEXTre Signature LED Tail Lamps", "L-shaped, distinctive at night [citation:2]"),
+        ("Shark Fin Antenna", "Roof-mounted, replaces old pole antenna [citation:17]"),
+    ],
+    "interior": [
+        ("Ventilated Front Seats", "Alpha (O) trims [citation:2]"),
+        ("SmartPlay Pro+ Infotainment", "9-inch, wireless Android Auto & Apple CarPlay [citation:2]"),
+        ("Clarion Premium Audio", "Alpha trims [citation:2]"),
+        ("Cooled Wireless Charger", "Qi-certified [citation:13]"),
+        ("Head-Up Display (HUD)", "Pop-up display for key info [citation:17]"),
+        ("360-Degree Camera", "Top trims [citation:17]"),
+    ],
+    "cng_ags": [
+        ("First in India", "CNG + AGS combination — a first for any Maruti car [citation:15]"),
+        ("Engine", "Advanced Z12E 1.2L with Dual VVT and Idle Start-Stop [citation:11]"),
+        ("CNG Power", "70 bhp & 101.8 Nm in CNG mode [citation:4]"),
+        ("Mileage", "33.61 km/kg (CNG), 24.77 km/l (Petrol AGS) [citation:3][citation:13]"),
+        ("Variants", "Delta CNG AGS (₹8.32L), Zeta CNG AGS (₹9.32L) [citation:1]"),
+        ("Transmission", "5-speed AGS (AMT) with manual override [citation:11]"),
+    ],
+}
+
+# ─────────────────────────────────────────────
 # IMAGE LIBRARY
 # ─────────────────────────────────────────────
 IMAGES = {
@@ -180,6 +212,18 @@ IMAGES = {
         "caption": "Charting the climb · Photo by Lukas on Pexels",
         "accent": "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80",
         "accent_caption": "Coins stacked · Photo by Micheile Henderson on Unsplash",
+    },
+    "baleno": {
+        "hero": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&q=80",
+        "caption": "The drive ahead · Photo by Clem Onojeghuo on Unsplash",
+        "accent": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
+        "accent_caption": "Baleno waiting · Photo by Campbell on Unsplash",
+        "exterior_1": "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80",
+        "exterior_1_caption": "Exterior profile · Photo by Campbell on Unsplash",
+        "interior_1": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
+        "interior_1_caption": "Cabin view · Photo by Campbell on Unsplash",
+        "cng_1": "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=800&q=80",
+        "cng_1_caption": "CNG station · Photo by Artiom Vallat on Unsplash",
     },
 }
 
@@ -290,7 +334,7 @@ THEMES = {
 T = THEMES[st.session_state.theme]
 
 # ─────────────────────────────────────────────
-# PREMIUM DESIGN SYSTEM — CSS (all dark, larger fonts)
+# PREMIUM DESIGN SYSTEM — CSS
 # ─────────────────────────────────────────────
 CSS = (
     "<style>"
@@ -419,7 +463,7 @@ st.markdown(
 )
 
 # ─────────────────────────────────────────────
-# RITUAL SELECTOR — 6 BUTTONS
+# RITUAL SELECTOR — 7 BUTTONS
 # ─────────────────────────────────────────────
 st.markdown('<div class="ritual-label">Choose Your Moment</div>', unsafe_allow_html=True)
 
@@ -453,10 +497,15 @@ with col5:
 
 st.markdown('<div class="ritual-label" style="margin-top:20px;">Your Future</div>', unsafe_allow_html=True)
 
-col6 = st.columns(1)[0]
+col6, col7 = st.columns(2)
+
 with col6:
-    if st.button("🎯\nMonthly Targets · Oct 2026 → May 2029", key="btn_targets", use_container_width=True):
+    if st.button("🎯\nMonthly Targets", key="btn_targets", use_container_width=True):
         st.session_state.mode = "targets"
+        st.rerun()
+with col7:
+    if st.button("🚗\nBaleno CNG AGS", key="btn_baleno", use_container_width=True):
+        st.session_state.mode = "baleno"
         st.rerun()
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -474,6 +523,7 @@ EYEBROW = {
     "hanuman":   "🙏 Hanuman Chalisa",
     "vishnu":    "🕉️ Vishnu Sahasranama",
     "targets":   "🎯 Monthly Financial Targets",
+    "baleno":    "🚗 Baleno CNG AGS",
 }[mode]
 
 HEADLINE = {
@@ -483,6 +533,7 @@ HEADLINE = {
     "hanuman":   'Forty verses of <span class="accent">strength</span>.',
     "vishnu":    'The thousand <span class="accent">names</span>.',
     "targets":   'The climb from <span class="accent">18 to 49 Lakhs</span>.',
+    "baleno":    'The drive to <span class="accent">your Baleno</span>.',
 }[mode]
 
 hero_html = (
@@ -942,6 +993,69 @@ elif mode == "targets":
     )
 
 # ─────────────────────────────────────────────
+# CONTENT — BALENO CNG AGS
+# ─────────────────────────────────────────────
+elif mode == "baleno":
+    st.markdown(
+        '<div class="card card-hero">'
+        '<div class="badge">🚗 Baleno CNG AGS</div>'
+        '<h2 class="salutation">The <span class="accent">Drive</span>.</h2>'
+        '<p class="prompt">India\'s first CNG + Automatic in a Maruti hatchback.</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── Exterior ──
+    st.markdown('<div class="ritual-label" style="margin-top:24px;">🚗 Exterior</div>', unsafe_allow_html=True)
+    st.image(IMAGES["baleno"]["exterior_1"], caption=IMAGES["baleno"]["exterior_1_caption"], use_container_width=True)
+    exterior_rows = ""
+    for name, desc in BALENO_FACTS["exterior"]:
+        exterior_rows += (
+            '<div class="hrcm-row">'
+            f'<span class="k">{name}</span><span>{desc}</span>'
+            '</div>'
+        )
+    st.markdown(f'<div class="section"><h3>Exterior Highlights</h3>{exterior_rows}</div>', unsafe_allow_html=True)
+
+    # ── Interior ──
+    st.markdown('<div class="ritual-label" style="margin-top:24px;">🪑 Interior</div>', unsafe_allow_html=True)
+    st.image(IMAGES["baleno"]["interior_1"], caption=IMAGES["baleno"]["interior_1_caption"], use_container_width=True)
+    interior_rows = ""
+    for name, desc in BALENO_FACTS["interior"]:
+        interior_rows += (
+            '<div class="hrcm-row">'
+            f'<span class="k">{name}</span><span>{desc}</span>'
+            '</div>'
+        )
+    st.markdown(f'<div class="section"><h3>Interior Highlights</h3>{interior_rows}</div>', unsafe_allow_html=True)
+
+    # ── CNG + AGS ──
+    st.markdown('<div class="ritual-label" style="margin-top:24px;">⛽ CNG + AGS</div>', unsafe_allow_html=True)
+    st.image(IMAGES["baleno"]["cng_1"], caption=IMAGES["baleno"]["cng_1_caption"], use_container_width=True)
+    cng_rows = ""
+    for name, desc in BALENO_FACTS["cng_ags"]:
+        cng_rows += (
+            '<div class="hrcm-row">'
+            f'<span class="k">{name}</span><span>{desc}</span>'
+            '</div>'
+        )
+    st.markdown(f'<div class="section"><h3>CNG + AGS — Why It Matters</h3>{cng_rows}</div>', unsafe_allow_html=True)
+
+    # ── Closing vow ──
+    st.markdown(
+        '<div class="vow" style="margin-top:24px;">'
+        '<h3>✦ The Baleno Vow ✦</h3>'
+        '<p>'
+        'I will sit in this driver\'s seat.<br>'
+        'I will press the start button.<br>'
+        'I will drive it home — CNG, AGS, and all.<br>'
+        '<strong>₹18 Lakhs. Then ₹19. Then ₹20. Then the keys.</strong>'
+        '</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+# ─────────────────────────────────────────────
 # ACCENT IMAGE
 # ─────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -959,11 +1073,12 @@ LABELS = {
     "hanuman":   "🙏 I've Recited the Hanuman Chalisa",
     "vishnu":    "🕉️ I've Chanted the Vishnu Sahasranama",
     "targets":   "🎯 I've Reviewed My Monthly Targets",
+    "baleno":    "🚗 I've Visualized My Baleno",
 }
 
 today = datetime.now().date().isoformat()
 
-if mode != "targets":
+if mode not in ["targets", "baleno"]:
     if not st.session_state.completed.get(mode, False):
         if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
             st.session_state.completed[mode] = True
@@ -980,9 +1095,9 @@ if mode != "targets":
                 st.session_state.completion_history[today] = max(0, st.session_state.completion_history[today] - 1)
             st.rerun()
 else:
-    if st.button(LABELS["targets"], use_container_width=True, key="complete_targets"):
+    if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
         st.balloons()
-        st.success("🎯 Targets reviewed. Keep climbing.")
+        st.success("✨ Visualization complete. Keep becoming.")
 
 # ─────────────────────────────────────────────
 # STREAK + PROGRESS
