@@ -1,6 +1,7 @@
 import streamlit as st
-from datetime import datetime
-import io
+from datetime import datetime, timedelta
+import pandas as pd
+import plotly.graph_objects as go
 
 # ─────────────────────────────────────────────
 # PAGE CONFIG
@@ -15,7 +16,6 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 # EMBEDDED SACRED TEXTS
 # ─────────────────────────────────────────────
-
 HANUMAN_CHALISA_DOHA = {
     "Doha 1": "Shri Guru Charan Saroj Raj, Nij Manu Mukur Sudhaari. Baranau Raghubar Vimal Jas, Jo Daayak Phal Chari.",
     "Doha 2": "Buddhiheen Tanu Jaankai, Sumiron Pavan-Kumar. Bal Buddhi Vidya Dehu Mohin, Harhu Kalesh Vikaari.",
@@ -89,7 +89,7 @@ VISHNU_SAHASRANAMA_SLOKAS = [
 ]
 
 # ─────────────────────────────────────────────
-# IMAGE LIBRARY — Free from Unsplash & Pexels
+# IMAGE LIBRARY
 # ─────────────────────────────────────────────
 IMAGES = {
     "morning": {
@@ -125,116 +125,216 @@ IMAGES = {
 }
 
 # ─────────────────────────────────────────────
-# PREMIUM DESIGN SYSTEM — CSS
+# STATE INIT
 # ─────────────────────────────────────────────
-st.markdown("""
+if "mode" not in st.session_state:
+    st.session_state.mode = "morning"
+if "streak" not in st.session_state:
+    st.session_state.streak = 0
+if "completed" not in st.session_state:
+    st.session_state.completed = {
+        "morning": False,
+        "afternoon": False,
+        "night": False,
+        "hanuman": False,
+        "vishnu": False,
+    }
+if "completion_history" not in st.session_state:
+    st.session_state.completion_history = {}
+if "auto_set" not in st.session_state:
+    hour = datetime.now().hour
+    if hour < 12:
+        st.session_state.mode = "morning"
+    elif hour < 17:
+        st.session_state.mode = "afternoon"
+    else:
+        st.session_state.mode = "night"
+    st.session_state.auto_set = True
+
+if "theme" not in st.session_state:
+    h = datetime.now().hour
+    if 5 <= h < 8:
+        st.session_state.theme = "dawn"
+    elif 8 <= h < 17:
+        st.session_state.theme = "day"
+    elif 17 <= h < 20:
+        st.session_state.theme = "dusk"
+    else:
+        st.session_state.theme = "night"
+
+# ─────────────────────────────────────────────
+# THEME TOKENS — 4 PALETTES
+# ─────────────────────────────────────────────
+THEMES = {
+    "dawn": {
+        "name": "Dawn", "icon": "🌅",
+        "cream": "#FDF6F0", "cream_deep": "#F9E8E0",
+        "ink": "#3D2E2A", "ink_soft": "#5A4A44",
+        "gold": "#C47B5A", "gold_soft": "#E8A87C", "gold_pale": "#F0C8B0",
+        "card": "#FFFFFF", "card_soft": "#FFF9F5",
+        "verse_bg": "linear-gradient(135deg, #FFF9F5 0%, #FDE8DC 100%)",
+        "vow_bg": "linear-gradient(135deg, #FFF9F5 0%, #FAD9C8 100%)",
+        "seal_bg": "linear-gradient(135deg, #3D2E2A 0%, #5A4A44 100%)",
+        "seal_text": "#FDF6F0", "seal_accent": "#E8A87C",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #FFF9F5 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #F9E8E0 0%, transparent 50%), linear-gradient(180deg, #FDF6F0 0%, #F9E8E0 100%)",
+        "shadow_sm": "0 2px 12px rgba(61, 46, 42, 0.06)",
+        "shadow_md": "0 6px 24px rgba(61, 46, 42, 0.10)",
+        "shadow_lg": "0 16px 48px rgba(61, 46, 42, 0.15)",
+    },
+    "day": {
+        "name": "Day", "icon": "☀️",
+        "cream": "#FBF6EC", "cream_deep": "#F5EBD8",
+        "ink": "#2E2A22", "ink_soft": "#4A4438",
+        "gold": "#B8893A", "gold_soft": "#D4AF37", "gold_pale": "#E8D9A8",
+        "card": "#FFFFFF", "card_soft": "#FFFDF6",
+        "verse_bg": "linear-gradient(135deg, #FFFDF6 0%, #FAF1D9 100%)",
+        "vow_bg": "linear-gradient(135deg, #FFFDF6 0%, #F7EBCB 100%)",
+        "seal_bg": "linear-gradient(135deg, #2E2A22 0%, #4A4438 100%)",
+        "seal_text": "#FBF6EC", "seal_accent": "#D4AF37",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #FFFDF7 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #F5EBD8 0%, transparent 50%), linear-gradient(180deg, #FBF6EC 0%, #F5EBD8 100%)",
+        "shadow_sm": "0 2px 12px rgba(74, 63, 42, 0.06)",
+        "shadow_md": "0 6px 24px rgba(74, 63, 42, 0.10)",
+        "shadow_lg": "0 16px 48px rgba(74, 63, 42, 0.15)",
+    },
+    "dusk": {
+        "name": "Dusk", "icon": "🌇",
+        "cream": "#1A1218", "cream_deep": "#241A22",
+        "ink": "#F5E8E0", "ink_soft": "#D4C0B8",
+        "gold": "#D9886A", "gold_soft": "#E8A87C", "gold_pale": "#5A3A30",
+        "card": "#2A1E24", "card_soft": "#32262C",
+        "verse_bg": "linear-gradient(135deg, #2A1E24 0%, #32262C 100%)",
+        "vow_bg": "linear-gradient(135deg, #32262C 0%, #3A2A30 100%)",
+        "seal_bg": "linear-gradient(135deg, #3A2A30 0%, #4A363C 100%)",
+        "seal_text": "#F5E8E0", "seal_accent": "#E8A87C",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #241A22 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #1A1218 0%, transparent 50%), linear-gradient(180deg, #1A1218 0%, #241A22 100%)",
+        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.30)",
+        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.45)",
+        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.60)",
+    },
+    "night": {
+        "name": "Night", "icon": "🌙",
+        "cream": "#0F0D0A", "cream_deep": "#1A1611",
+        "ink": "#F5EBD8", "ink_soft": "#D4C8A8",
+        "gold": "#E8B96A", "gold_soft": "#F5C97A", "gold_pale": "#5A4A28",
+        "card": "#1E1A14", "card_soft": "#252018",
+        "verse_bg": "linear-gradient(135deg, #1E1A14 0%, #252018 100%)",
+        "vow_bg": "linear-gradient(135deg, #241E14 0%, #2E2618 100%)",
+        "seal_bg": "linear-gradient(135deg, #2A2418 0%, #3A3222 100%)",
+        "seal_text": "#F5EBD8", "seal_accent": "#E8B96A",
+        "body_grad": "radial-gradient(1200px 600px at 50% -10%, #1A1611 0%, transparent 60%), radial-gradient(800px 400px at 100% 100%, #0F0D0A 0%, transparent 50%), linear-gradient(180deg, #0F0D0A 0%, #1A1611 100%)",
+        "shadow_sm": "0 2px 12px rgba(0, 0, 0, 0.30)",
+        "shadow_md": "0 6px 24px rgba(0, 0, 0, 0.45)",
+        "shadow_lg": "0 16px 48px rgba(0, 0, 0, 0.60)",
+    },
+}
+
+T = THEMES[st.session_state.theme]
+
+# ─────────────────────────────────────────────
+# PREMIUM DESIGN SYSTEM — CSS (theme-aware)
+# ─────────────────────────────────────────────
+st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
-    :root {
-        --cream:        #FBF6EC;
-        --cream-deep:   #F5EBD8;
-        --ink:          #2E2A22;
-        --ink-soft:     #4A4438;
-        --gold:         #B8893A;
-        --gold-soft:    #D4AF37;
-        --gold-pale:    #E8D9A8;
-        --card:         #FFFFFF;
-        --shadow-sm:    0 2px 12px rgba(74, 63, 42, 0.06);
-        --shadow-md:    0 6px 24px rgba(74, 63, 42, 0.10);
-        --shadow-lg:    0 16px 48px rgba(74, 63, 42, 0.15);
-    }
+    :root {{
+        --cream:        {T['cream']};
+        --cream-deep:   {T['cream_deep']};
+        --ink:          {T['ink']};
+        --ink-soft:     {T['ink_soft']};
+        --gold:         {T['gold']};
+        --gold-soft:    {T['gold_soft']};
+        --gold-pale:    {T['gold_pale']};
+        --card:         {T['card']};
+        --card-soft:    {T['card_soft']};
+        --shadow-sm:    {T['shadow_sm']};
+        --shadow-md:    {T['shadow_md']};
+        --shadow-lg:    {T['shadow_lg']};
+    }}
 
-    html, body, [class*="css"] {
+    html, body, [class*="css"] {{
         font-family: 'Inter', sans-serif;
         color: var(--ink);
-    }
+    }}
 
-    .stApp {
-        background:
-            radial-gradient(1200px 600px at 50% -10%, #FFFDF7 0%, transparent 60%),
-            radial-gradient(800px 400px at 100% 100%, #F5EBD8 0%, transparent 50%),
-            linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+    .stApp {{
+        background: {T['body_grad']};
         background-attachment: fixed;
-    }
+    }}
 
-    .main .block-container {
+    .main .block-container {{
         max-width: 760px;
         padding-top: 2rem;
         padding-bottom: 4rem;
-    }
+    }}
 
-    /* ═══ HERO IMAGE ═══ */
-    .hero-image-wrap {
+    .hero-image-wrap {{
         position: relative;
         border-radius: 20px;
         overflow: hidden;
         margin-bottom: 24px;
         box-shadow: var(--shadow-lg);
         animation: fadeUp 0.6s cubic-bezier(.2,.8,.2,1) both;
-    }
-    .hero-image-wrap img {
+    }}
+    .hero-image-wrap img {{
         width: 100%;
         height: 260px;
         object-fit: cover;
         display: block;
-    }
-    .hero-image-wrap .overlay {
+    }}
+    .hero-image-wrap .overlay {{
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(46,42,34,0.05) 0%, rgba(46,42,34,0.55) 100%);
-    }
-    .hero-image-wrap .text {
+        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.60) 100%);
+    }}
+    .hero-image-wrap .text {{
         position: absolute;
         bottom: 24px;
         left: 28px;
         right: 28px;
         color: #FFFDF7;
-    }
-    .hero-image-wrap .text .eyebrow {
-        font-family: 'Inter', sans-serif;
+    }}
+    .hero-image-wrap .text .eyebrow {{
         font-size: 0.7rem;
         letter-spacing: 3px;
         text-transform: uppercase;
-        color: var(--gold-pale);
+        color: {T['gold_soft']};
         font-weight: 600;
         margin-bottom: 8px;
-    }
-    .hero-image-wrap .text h2 {
+    }}
+    .hero-image-wrap .text h2 {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 2rem;
         font-weight: 700;
         margin: 0;
         line-height: 1.15;
-        text-shadow: 0 2px 12px rgba(0,0,0,0.4);
-    }
-    .hero-image-wrap .text h2 .accent {
-        color: var(--gold-pale);
+        text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    }}
+    .hero-image-wrap .text h2 .accent {{
+        color: {T['gold_soft']};
         font-style: italic;
-    }
-    .hero-image-wrap .caption {
+    }}
+    .hero-image-wrap .caption {{
         position: absolute;
         bottom: 6px;
         right: 12px;
         font-size: 0.55rem;
         color: rgba(255,255,255,0.55);
-        font-family: 'Inter', sans-serif;
-    }
+    }}
 
-    /* ═══ HEADER ═══ */
-    .hero {
+    .hero {{
         text-align: center;
         padding: 8px 0 20px 0;
-    }
-    .hero-eyebrow {
+    }}
+    .hero-eyebrow {{
         font-size: 0.7rem;
         letter-spacing: 4px;
         text-transform: uppercase;
         color: var(--gold);
         font-weight: 600;
         margin-bottom: 12px;
-    }
-    .hero-title {
+    }}
+    .hero-title {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 2.4rem;
         font-weight: 700;
@@ -242,39 +342,38 @@ st.markdown("""
         line-height: 1.1;
         margin: 0;
         letter-spacing: -0.5px;
-    }
-    .hero-title .accent {
+    }}
+    .hero-title .accent {{
         color: var(--gold);
         font-style: italic;
         font-weight: 600;
-    }
-    .hero-divider {
+    }}
+    .hero-divider {{
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 12px;
         margin: 16px 0 12px 0;
         color: var(--gold);
-    }
-    .hero-divider .line {
+    }}
+    .hero-divider .line {{
         width: 60px;
         height: 1px;
         background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .hero-divider .dot {
+    }}
+    .hero-divider .dot {{
         font-size: 0.7rem;
         letter-spacing: 6px;
-    }
-    .hero-sub {
+    }}
+    .hero-sub {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1rem;
         font-style: italic;
         color: var(--ink-soft);
         margin: 0;
-    }
+    }}
 
-    /* ═══ RITUAL SELECTOR ═══ */
-    .ritual-label {
+    .ritual-label {{
         text-align: center;
         font-size: 0.7rem;
         letter-spacing: 3px;
@@ -282,9 +381,9 @@ st.markdown("""
         color: var(--gold);
         font-weight: 600;
         margin: 8px 0 14px 0;
-    }
+    }}
 
-    div[data-testid="column"] .stButton > button {
+    div[data-testid="column"] .stButton > button {{
         width: 100%;
         border-radius: 16px;
         padding: 20px 12px;
@@ -300,42 +399,39 @@ st.markdown("""
         white-space: pre-line;
         line-height: 1.5;
         min-height: 90px;
-    }
-    div[data-testid="column"] .stButton > button:hover {
+    }}
+    div[data-testid="column"] .stButton > button:hover {{
         transform: translateY(-3px);
         box-shadow: var(--shadow-md);
         border-color: var(--gold-pale);
         color: var(--gold);
-    }
-    div[data-testid="column"] .stButton > button:focus:not(:active) {
+    }}
+    div[data-testid="column"] .stButton > button:focus:not(:active) {{
         color: var(--gold);
         border-color: var(--gold);
-    }
+    }}
 
-    /* ═══ CARDS ═══ */
-    .card {
+    .card {{
         background: var(--card);
         border-radius: 18px;
         padding: 26px 28px;
         margin: 16px 0;
         box-shadow: var(--shadow-md);
-        border: 1px solid rgba(212, 175, 55, 0.15);
+        border: 1px solid var(--gold-pale);
         animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
-    }
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(12px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
+    }}
+    @keyframes fadeUp {{
+        from {{ opacity: 0; transform: translateY(12px); }}
+        to   {{ opacity: 1; transform: translateY(0); }}
+    }}
 
-    .card-hero {
+    .card-hero {{
         text-align: center;
         padding: 32px 28px;
-        background:
-            radial-gradient(circle at 50% 0%, rgba(212,175,55,0.08), transparent 70%),
-            var(--card);
+        background: var(--card);
         border: 2px solid var(--gold-pale);
-    }
-    .card-hero .badge {
+    }}
+    .card-hero .badge {{
         display: inline-block;
         font-size: 0.65rem;
         letter-spacing: 3px;
@@ -346,27 +442,26 @@ st.markdown("""
         border-radius: 100px;
         font-weight: 600;
         margin-bottom: 16px;
-    }
-    .card-hero .salutation {
+    }}
+    .card-hero .salutation {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.9rem;
         font-weight: 700;
         color: var(--ink);
         margin: 0 0 8px 0;
         line-height: 1.2;
-    }
-    .card-hero .salutation .accent { color: var(--gold); font-style: italic; }
-    .card-hero .prompt {
+    }}
+    .card-hero .salutation .accent {{ color: var(--gold); font-style: italic; }}
+    .card-hero .prompt {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.1rem;
         font-style: italic;
         color: var(--ink-soft);
         margin: 0;
         line-height: 1.6;
-    }
+    }}
 
-    /* Section cards */
-    .section {
+    .section {{
         background: var(--card);
         border-radius: 14px;
         padding: 20px 24px;
@@ -374,8 +469,8 @@ st.markdown("""
         box-shadow: var(--shadow-sm);
         border-left: 4px solid var(--gold);
         animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
-    }
-    .section h3 {
+    }}
+    .section h3 {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.05rem;
         letter-spacing: 2px;
@@ -383,24 +478,23 @@ st.markdown("""
         margin: 0 0 12px 0;
         font-weight: 700;
         text-transform: uppercase;
-    }
-    .section p {
+    }}
+    .section p {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.05rem;
         line-height: 1.75;
         color: var(--ink-soft);
         margin: 0;
-    }
-    .section .bold-line {
+    }}
+    .section .bold-line {{
         display: block;
         font-weight: 700;
         color: var(--ink);
         margin-top: 10px;
         font-style: italic;
-    }
+    }}
 
-    /* HRCM grid */
-    .hrcm-row {
+    .hrcm-row {{
         display: flex;
         align-items: flex-start;
         gap: 12px;
@@ -409,25 +503,24 @@ st.markdown("""
         font-size: 1.05rem;
         color: var(--ink-soft);
         border-bottom: 1px dashed var(--gold-pale);
-    }
-    .hrcm-row:last-child { border-bottom: none; }
-    .hrcm-row .k {
+    }}
+    .hrcm-row:last-child {{ border-bottom: none; }}
+    .hrcm-row .k {{
         color: var(--gold);
         font-weight: 700;
         min-width: 110px;
-    }
+    }}
 
-    /* Vow card */
-    .vow {
-        background: linear-gradient(135deg, #FFFDF6 0%, #F7EBCB 100%);
+    .vow {{
+        background: {T['vow_bg']};
         border: 2px dashed var(--gold);
         border-radius: 16px;
         padding: 24px 22px;
         text-align: center;
         margin: 16px 0;
         animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
-    }
-    .vow h3 {
+    }}
+    .vow h3 {{
         font-family: 'Cormorant Garamond', serif;
         color: var(--gold);
         font-size: 1.05rem;
@@ -435,47 +528,44 @@ st.markdown("""
         text-transform: uppercase;
         margin: 0 0 12px 0;
         font-weight: 700;
-    }
-    .vow p {
+    }}
+    .vow p {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.05rem;
         color: var(--ink);
         line-height: 1.9;
         margin: 0;
-    }
+    }}
 
-    /* Scripture verse card */
-    .verse-card {
-        background: linear-gradient(135deg, #FFFDF6 0%, #FAF1D9 100%);
+    .verse-card {{
+        background: {T['verse_bg']};
         border-left: 4px solid var(--gold);
         border-radius: 12px;
         padding: 16px 20px;
         margin: 10px 0;
         box-shadow: var(--shadow-sm);
         animation: fadeUp 0.4s cubic-bezier(.2,.8,.2,1) both;
-    }
-    .verse-card .verse-num {
-        font-family: 'Inter', sans-serif;
+    }}
+    .verse-card .verse-num {{
         font-size: 0.7rem;
         letter-spacing: 2px;
         color: var(--gold);
         text-transform: uppercase;
         font-weight: 700;
         margin-bottom: 6px;
-    }
-    .verse-card .verse-text {
+    }}
+    .verse-card .verse-text {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.1rem;
         line-height: 1.7;
         color: var(--ink);
         font-style: italic;
         margin: 0;
-    }
+    }}
 
-    /* Seal / footer */
-    .seal {
-        background: linear-gradient(135deg, #2E2A22 0%, #4A4438 100%);
-        color: var(--cream);
+    .seal {{
+        background: {T['seal_bg']};
+        color: {T['seal_text']};
         border-radius: 18px;
         padding: 30px 26px;
         text-align: center;
@@ -483,44 +573,43 @@ st.markdown("""
         box-shadow: var(--shadow-lg);
         position: relative;
         overflow: hidden;
-    }
-    .seal::before {
+    }}
+    .seal::before {{
         content: "";
         position: absolute;
         inset: 8px;
         border: 1px solid rgba(212, 175, 55, 0.35);
         border-radius: 12px;
         pointer-events: none;
-    }
-    .seal h3 {
+    }}
+    .seal h3 {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.2rem;
         letter-spacing: 3px;
-        color: var(--gold-soft);
+        color: {T['seal_accent']};
         margin: 0 0 12px 0;
         font-weight: 700;
         position: relative;
-    }
-    .seal p {
+    }}
+    .seal p {{
         font-family: 'Cormorant Garamond', serif;
         font-size: 1rem;
         font-style: italic;
-        color: var(--cream);
+        color: {T['seal_text']};
         line-height: 1.7;
         margin: 0;
         position: relative;
-    }
-    .seal .sign {
+    }}
+    .seal .sign {{
         font-family: 'Cormorant Garamond', serif;
-        color: var(--gold-soft);
+        color: {T['seal_accent']};
         font-size: 0.9rem;
         margin-top: 14px;
         letter-spacing: 1px;
         position: relative;
-    }
+    }}
 
-    /* Streak pill */
-    .streak-pill {
+    .streak-pill {{
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -532,45 +621,40 @@ st.markdown("""
         font-weight: 500;
         color: var(--ink-soft);
         box-shadow: var(--shadow-sm);
-    }
-    .streak-pill .num {
+    }}
+    .streak-pill .num {{
         color: var(--gold);
         font-weight: 700;
         font-size: 1rem;
-    }
+    }}
 
-    /* Hide streamlit chrome */
-    footer { visibility: hidden; }
-    #MainMenu { visibility: hidden; }
-    header { visibility: hidden; }
+    footer {{ visibility: hidden; }}
+    #MainMenu {{ visibility: hidden; }}
+    header {{ visibility: hidden; }}
 </style>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# STATE INIT
+# THEME SELECTOR
 # ─────────────────────────────────────────────
-if "mode" not in st.session_state:
-    st.session_state.mode = "morning"
-if "streak" not in st.session_state:
-    st.session_state.streak = 0
-if "completed" not in st.session_state:
-    st.session_state.completed = {
-        "morning": False,
-        "afternoon": False,
-        "night": False,
-        "hanuman": False,
-        "vishnu": False,
-    }
+top_left, top_right = st.columns([3, 2])
 
-if "auto_set" not in st.session_state:
-    hour = datetime.now().hour
-    if hour < 12:
-        st.session_state.mode = "morning"
-    elif hour < 17:
-        st.session_state.mode = "afternoon"
-    else:
-        st.session_state.mode = "night"
-    st.session_state.auto_set = True
+with top_right:
+    theme_options = list(THEMES.keys())
+    theme_labels = [f"{THEMES[t]['icon']} {THEMES[t]['name']}" for t in theme_options]
+    current_idx = theme_options.index(st.session_state.theme)
+
+    selected = st.selectbox(
+        "Theme",
+        options=range(len(theme_options)),
+        format_func=lambda i: theme_labels[i],
+        index=current_idx,
+        label_visibility="collapsed",
+        key="theme_selector",
+    )
+    if theme_options[selected] != st.session_state.theme:
+        st.session_state.theme = theme_options[selected]
+        st.rerun()
 
 # ─────────────────────────────────────────────
 # HERO HEADER
@@ -589,29 +673,25 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# RITUAL SELECTOR — 5 BUTTONS (3 + 2 sacred)
+# RITUAL SELECTOR — 5 BUTTONS
 # ─────────────────────────────────────────────
 st.markdown('<div class="ritual-label">Choose Your Moment</div>', unsafe_allow_html=True)
 
-# Row 1: Morning / Afternoon / Night
 col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button("🌅\nMorning", key="btn_morning", use_container_width=True):
         st.session_state.mode = "morning"
         st.rerun()
-
 with col2:
     if st.button("☀️\nAfternoon", key="btn_afternoon", use_container_width=True):
         st.session_state.mode = "afternoon"
         st.rerun()
-
 with col3:
     if st.button("🌙\nNight", key="btn_night", use_container_width=True):
         st.session_state.mode = "night"
         st.rerun()
 
-# Row 2: Hanuman Chalisa / Vishnu Sahasranama
 st.markdown('<div class="ritual-label" style="margin-top:18px;">Sacred Recitations</div>', unsafe_allow_html=True)
 
 col4, col5 = st.columns(2)
@@ -620,7 +700,6 @@ with col4:
     if st.button("🙏\nHanuman Chalisa", key="btn_hanuman", use_container_width=True):
         st.session_state.mode = "hanuman"
         st.rerun()
-
 with col5:
     if st.button("🕉️\nVishnu Sahasranama", key="btn_vishnu", use_container_width=True):
         st.session_state.mode = "vishnu"
@@ -629,7 +708,7 @@ with col5:
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# HERO IMAGE — Changes per mode
+# HERO IMAGE
 # ─────────────────────────────────────────────
 mode = st.session_state.mode
 img = IMAGES[mode]
@@ -663,7 +742,36 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# CONTENT: MORNING
+# AUDIO RECITATION
+# ─────────────────────────────────────────────
+if mode in ["hanuman", "vishnu"]:
+    st.markdown('<div class="ritual-label">🔊 Listen to Recitation</div>', unsafe_allow_html=True)
+
+    try:
+        from streamlit_TTS import text_to_speech
+
+        if mode == "hanuman":
+            recitation_text = " ".join(HANUMAN_CHALISA_DOHA.values()) + " " + " ".join(HANUMAN_CHALISA_CHAUPAI) + " " + HANUMAN_CHALISA_CLOSING
+        else:
+            recitation_text = " ".join(VISHNU_SAHASRANAMA_SLOKAS) + " " + " ".join(VISHNU_SAHASRANAMA_STOTRAM)
+
+        col_play, col_stop = st.columns(2)
+        with col_play:
+            if st.button("▶️ Play Recitation", use_container_width=True, key=f"play_{mode}"):
+                with st.spinner("Preparing audio..."):
+                    text_to_speech(recitation_text[:3000], language="en", wait=False)
+                st.success("Audio ready. Continue your recitation.")
+        with col_stop:
+            if st.button("⏹️ Stop", use_container_width=True, key=f"stop_{mode}"):
+                st.info("Audio stopped.")
+
+    except ImportError:
+        st.warning("Audio requires `streamlit-TTS`. Install with: `pip install streamlit-TTS`")
+    except Exception as e:
+        st.warning(f"Audio unavailable: {str(e)}")
+
+# ─────────────────────────────────────────────
+# CONTENT — MORNING
 # ─────────────────────────────────────────────
 if mode == "morning":
     st.markdown("""
@@ -717,7 +825,7 @@ if mode == "morning":
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# CONTENT: AFTERNOON
+# CONTENT — AFTERNOON
 # ─────────────────────────────────────────────
 elif mode == "afternoon":
     st.markdown("""
@@ -768,7 +876,7 @@ elif mode == "afternoon":
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# CONTENT: NIGHT
+# CONTENT — NIGHT
 # ─────────────────────────────────────────────
 elif mode == "night":
     st.markdown("""
@@ -822,7 +930,7 @@ elif mode == "night":
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# CONTENT: HANUMAN CHALISA
+# CONTENT — HANUMAN CHALISA
 # ─────────────────────────────────────────────
 elif mode == "hanuman":
     st.markdown("""
@@ -834,7 +942,7 @@ elif mode == "hanuman":
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="ritual-label">Doha — Opening Invocation</div>', unsafe_allow_html=True)
-    for i, (title, verse) in enumerate(HANUMAN_CHALISA_DOHA.items(), 1):
+    for title, verse in HANUMAN_CHALISA_DOHA.items():
         st.markdown(f"""
         <div class="verse-card">
             <div class="verse-num">{title}</div>
@@ -871,7 +979,7 @@ elif mode == "hanuman":
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# CONTENT: VISHNU SAHASRANAMA
+# CONTENT — VISHNU SAHASRANAMA
 # ─────────────────────────────────────────────
 elif mode == "vishnu":
     st.markdown("""
@@ -911,16 +1019,16 @@ elif mode == "vishnu":
     </div>
     """, unsafe_allow_html=True)
 
-    st.caption("Note: The complete Vishnu Sahasranama contains 1,000 names across 107 verses. This is a representative excerpt. For full traditional recitation, please refer to dedicated publications.")
+    st.caption("Note: The complete Vishnu Sahasranama contains 1,000 names across 107 verses. This is a representative excerpt.")
 
 # ─────────────────────────────────────────────
-# ACCENT IMAGE — Small, per mode
+# ACCENT IMAGE
 # ─────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
 st.image(img["accent"], caption=img["accent_caption"], use_container_width=True)
 
 # ─────────────────────────────────────────────
-# MARK COMPLETE + STREAK
+# MARK COMPLETE + STREAK + HISTORY
 # ─────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -932,10 +1040,13 @@ LABELS = {
     "vishnu":    "🕉️ I've Chanted the Vishnu Sahasranama",
 }
 
+today = datetime.now().date().isoformat()
+
 if not st.session_state.completed[mode]:
     if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
         st.session_state.completed[mode] = True
         st.session_state.streak += 1
+        st.session_state.completion_history[today] = st.session_state.completion_history.get(today, 0) + 1
         st.balloons()
         st.rerun()
 else:
@@ -943,6 +1054,8 @@ else:
     if st.button("🔄 Reset This Session", use_container_width=True, key=f"reset_{mode}"):
         st.session_state.completed[mode] = False
         st.session_state.streak = max(0, st.session_state.streak - 1)
+        if today in st.session_state.completion_history:
+            st.session_state.completion_history[today] = max(0, st.session_state.completion_history[today] - 1)
         st.rerun()
 
 # ─────────────────────────────────────────────
@@ -964,6 +1077,82 @@ with c2:
     )
 
 # ─────────────────────────────────────────────
+# 90-DAY STREAK HEATMAP
+# ─────────────────────────────────────────────
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown('<div class="ritual-label">🗓️ 90-Day Practice Heatmap</div>', unsafe_allow_html=True)
+
+end_date = datetime.now().date()
+start_date = end_date - timedelta(days=89)
+date_range = [start_date + timedelta(days=i) for i in range(90)]
+
+heatmap_data = []
+for d in date_range:
+    iso = d.isoformat()
+    count = st.session_state.completion_history.get(iso, 0)
+    heatmap_data.append({
+        "date": d,
+        "week": d.isocalendar()[1],
+        "weekday": d.weekday(),
+        "count": count,
+    })
+
+df_heatmap = pd.DataFrame(heatmap_data)
+week_min = df_heatmap["week"].min()
+df_heatmap["week_index"] = df_heatmap["week"] - week_min
+
+pivot = df_heatmap.pivot_table(
+    index="weekday",
+    columns="week_index",
+    values="count",
+    fill_value=0,
+)
+
+fig = go.Figure(data=go.Heatmap(
+    z=pivot.values,
+    x=[f"W{i+1}" for i in range(len(pivot.columns))],
+    y=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    colorscale=[
+        [0.0, "#F0F0F0"],
+        [0.25, T["gold_pale"]],
+        [0.5, T["gold_soft"]],
+        [0.75, T["gold"]],
+        [1.0, "#B8893A"],
+    ],
+    showscale=False,
+    hovertemplate="Day: %{y}<br>Week: %{x}<br>Rituals: %{z}<extra></extra>",
+    xgap=3,
+    ygap=3,
+))
+
+fig.update_layout(
+    height=220,
+    margin=dict(l=40, r=20, t=10, b=20),
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(0,0,0,0)",
+    font=dict(family="Inter, sans-serif", size=10, color=T["ink_soft"]),
+    xaxis=dict(showgrid=False, showticklabels=True, side="bottom", tickfont=dict(size=8)),
+    yaxis=dict(showgrid=False, autorange="reversed", tickfont=dict(size=9)),
+)
+
+st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+st.markdown(
+    f"""
+    <div style="text-align:center; font-family:'Inter',sans-serif; font-size:0.7rem; color:{T['ink_soft']}; margin-top:-10px;">
+        Less &nbsp;
+        <span style="display:inline-block; width:12px; height:12px; background:#F0F0F0; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:12px; height:12px; background:{T['gold_pale']}; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:12px; height:12px; background:{T['gold_soft']}; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:12px; height:12px; background:{T['gold']}; border-radius:2px; vertical-align:middle;"></span>
+        <span style="display:inline-block; width:12px; height:12px; background:#B8893A; border-radius:2px; vertical-align:middle;"></span>
+        &nbsp; More
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ─────────────────────────────────────────────
 # SEAL / FOOTER
 # ─────────────────────────────────────────────
 st.markdown("""
@@ -978,7 +1167,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# EXPANDER: PRINT / SAVE AS PDF
+# EXPANDER: PRINT
 # ─────────────────────────────────────────────
 with st.expander("🖨️  Print or Save as PDF"):
     st.markdown("""
