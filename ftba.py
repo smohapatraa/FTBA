@@ -768,6 +768,7 @@ elif mode == "night":
     st.video("https://www.youtube.com/watch?v=v9AHBtbk-E0")
 
     st.video("https://www.youtube.com/watch?v=fHBR1j1kJ1I")
+    st.video("https://www.youtube.com/watch?v=4Vz6L8B73i4")
     st.caption("Let this night sound carry you into stillness. Close your eyes. Breathe.")
 
 # ─────────────────────────────────────────────
