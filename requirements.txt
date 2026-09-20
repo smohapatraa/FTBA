@@ -3,4 +3,4 @@ streamlit-TTS>=0.0.5
 gTTS>=2.5.0
 plotly>=5.18.0
 pandas>=2.0.0
-streamlit-TTS
+streamLit-TTS
