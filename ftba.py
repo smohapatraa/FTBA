@@ -21,39 +21,18 @@ st.set_page_config(
 def check_password():
     """Returns True if the user entered the correct username + password."""
 
-    def password_entered():
-        try:
-            # Pull credentials from st.secrets
-            stored_passwords = st.secrets["passwords"]
-            username = st.session_state.get("username_input", "").strip()
-            password = st.session_state.get("password_input", "")
-
-            if username in stored_passwords and stored_passwords[username] == password:
-                st.session_state["authenticated"] = True
-                st.session_state["current_user"] = username
-                # Clear the password from memory
-                st.session_state["password_input"] = ""
-            else:
-                st.session_state["authenticated"] = False
-                st.session_state["auth_error"] = "Invalid username or password."
-        except Exception as e:
-            st.session_state["authenticated"] = False
-            st.session_state["auth_error"] = f"Auth error: {e}"
-
-    # If already authenticated, return True
     if st.session_state.get("authenticated", False):
         return True
 
-    # ── Login UI ──
     login_css = (
         "<style>"
-        ".login-wrap{max-width:420px;margin:80px auto 0 auto;padding:40px 32px;"
-        "background:var(--card,#1E1A14);border:2px solid var(--gold-pale,#4A3E22);"
+        ".login-wrap{max-width:420px;margin:60px auto 0 auto;padding:40px 32px;"
+        "background:#1E1A14;border:2px solid #4A3E22;"
         "border-radius:20px;box-shadow:0 16px 48px rgba(0,0,0,0.5);text-align:center;}"
         ".login-title{font-family:'Cormorant Garamond',serif;font-size:2rem;"
-        "font-weight:700;color:var(--ink,#F5EBD8);margin:0 0 8px 0;letter-spacing:1px;}"
+        "font-weight:700;color:#F5EBD8;margin:0 0 8px 0;letter-spacing:1px;}"
         ".login-sub{font-family:'Cormorant Garamond',serif;font-size:1.05rem;"
-        "font-style:italic;color:var(--ink-soft,#D4C8A8);margin:0 0 24px 0;}"
+        "font-style:italic;color:#D4C8A8;margin:0 0 24px 0;}"
         ".login-divider{width:80px;height:1px;background:linear-gradient(90deg,"
         "transparent,#E8B96A,transparent);margin:16px auto 24px auto;}"
         "</style>"
@@ -69,19 +48,37 @@ def check_password():
         unsafe_allow_html=True,
     )
 
-    # Login form
     with st.form("login_form", clear_on_submit=False):
-        st.text_input("Username", key="username_input", placeholder="Enter your username")
-        st.text_input("Password", key="password_input", type="password", placeholder="Enter your password")
+        username = st.text_input(
+            "Username",
+            key="username_input",
+            placeholder="Enter your username",
+        )
+        password = st.text_input(
+            "Password",
+            key="password_input",
+            type="password",
+            placeholder="Enter your password",
+        )
         submitted = st.form_submit_button("🔓 Unlock", use_container_width=True)
-        if submitted:
-            password_entered()
-            if st.session_state.get("authenticated", False):
-                st.rerun()
 
-    if "auth_error" in st.session_state and st.session_state["auth_error"]:
+    if submitted:
+        try:
+            stored_passwords = st.secrets["passwords"]
+            if username in stored_passwords and stored_passwords[username] == password:
+                st.session_state["authenticated"] = True
+                st.session_state["current_user"] = username
+                st.session_state["auth_error"] = ""
+                st.rerun()
+            else:
+                st.session_state["authenticated"] = False
+                st.session_state["auth_error"] = "Invalid username or password."
+        except Exception as e:
+            st.session_state["authenticated"] = False
+            st.session_state["auth_error"] = f"Auth error: {e}"
+
+    if st.session_state.get("auth_error"):
         st.error(st.session_state["auth_error"])
-        st.session_state["auth_error"] = ""
 
     st.caption("🔒 This app is private. Only authorized users may enter.")
     return False
@@ -552,20 +549,20 @@ CSS = (
 st.markdown(CSS, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# LOGOUT BUTTON (top-right)
+# TOP BAR — Logout + User + Theme
 # ─────────────────────────────────────────────
-top_left, top_mid, top_right = st.columns([3, 1, 1])
+top_left, top_mid, top_right = st.columns([2, 1, 1])
+
+with top_mid:
+    user = st.session_state.get("current_user", "")
+    if user:
+        st.caption(f"👤 {user}")
 
 with top_right:
     if st.button("🚪 Logout", key="logout_btn", use_container_width=True):
         st.session_state["authenticated"] = False
         st.session_state["current_user"] = ""
         st.rerun()
-
-with top_mid:
-    user = st.session_state.get("current_user", "")
-    if user:
-        st.caption(f"👤 {user}")
 
 # ─────────────────────────────────────────────
 # THEME SELECTOR
