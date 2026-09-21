@@ -9,7 +9,7 @@ from io import BytesIO
 # PAGE CONFIG
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="FTBA for HRCM",
+    page_title="Pocket Affirmation · Sacred Daily Ritual",
     page_icon="🌿",
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -67,40 +67,89 @@ def format_inr(n):
     return ",".join(parts) + "," + tail
 
 # ─────────────────────────────────────────────
+# CAREER ROADMAP DATA
+# ─────────────────────────────────────────────
+CAREER_ROADMAP = [
+    {
+        "Month": "Month 1",
+        "Focus": "Environment Setup",
+        "Action": "Install Python, set up virtual environments, organize working directories.",
+        "Status": "Completed",
+    },
+    {
+        "Month": "Month 2",
+        "Focus": "Pandas Data Mastery",
+        "Action": "Import and clean raw Excel/CSV data dumps from Tally Prime.",
+        "Status": "In Progress",
+    },
+    {
+        "Month": "Month 3",
+        "Focus": "Tally ITC Module",
+        "Action": "Build automated GSTR-2B vs Purchase Register reconciliation script.",
+        "Status": "Pending",
+    },
+    {
+        "Month": "Month 4",
+        "Focus": "Auto DMS & Aging Module",
+        "Action": "Develop vehicle stock aging and workshop floorplan interest calculator.",
+        "Status": "Pending",
+    },
+    {
+        "Month": "Month 5",
+        "Focus": "Security & Cloud Prep",
+        "Action": "Optimize memory processing for zero data leakage and high confidentiality.",
+        "Status": "Pending",
+    },
+    {
+        "Month": "Month 6",
+        "Focus": "Odisha Market Pitch",
+        "Action": "Network in Angul/Bhubaneswar; secure first 3 retainer clients at ₹70k/month.",
+        "Status": "Pending",
+    },
+]
+
+CAREER_LEAKAGE_SAMPLE = pd.DataFrame({
+    "Asset_ID": ["TRUCK-01", "SUV-09", "SPARE-BATCH-X", "RAW-STEEL-LOT"],
+    "Category": ["Logistics", "Showroom Auto", "Workshop Parts", "Manufacturing"],
+    "Tied_Capital_INR": [4500000, 1200000, 380000, 8500000],
+    "Holding_Cost_Per_Month": [22500, 18000, 7600, 42500],
+})
+
+# ─────────────────────────────────────────────
 # EMBEDDED SACRED TEXTS
 # ─────────────────────────────────────────────
 HANUMAN_CHALISA_DOHA = {
-    "Doha 1": "Shri Guru Charan Saroj Raj, Nij Manu Mukur Sudhaari. Baranau Raghubar Vimala Jasu, Jo Daayaku Phala Chari.",
-    "Doha 2": "Buddhiheen Tanu Jaanikai, Sumiroun Pavana-Kumara. Bal Buddhi Vidya Dehu Mohin, Harahu Kalesha Vikaara.",
+    "Doha 1": "Shri Guru Charan Saroj Raj, Nij Manu Mukur Sudhaari. Baranau Raghubar Vimal Jas, Jo Daayak Phal Chari.",
+    "Doha 2": "Buddhiheen Tanu Jaankai, Sumiron Pavan-Kumar. Bal Buddhi Vidya Dehu Mohin, Harhu Kalesh Vikaari.",
 }
 
 HANUMAN_CHALISA_CHAUPAI = [
     "Jai Hanuman Gyaan Gun Saagar, Jai Kapis Tihun Lok Ujaagar.",
     "Ram Doot Atulit Bal Dhaama, Anjani-Putra Pavan-Sut Naama.",
     "Mahabeer Vikram Bajrangi, Kumati Nivaar Sumati Ke Sangi.",
-    "Kanchan Varan Biraj Subesa, Kanan Kundal Kunchit Kesa.",
-    "Haath Vajra Aur Dhwaja Birajai, Kaandhe Moonj Janeu Sajaai.",
-    "Shankar Suvan Keshari Nandan, Tej Pratap Maha Jag Vandan.",
+    "Kanchan Varn Biraj Subesa, Kanan Kundal Kunchit Kesa.",
+    "Haath Vajra Au Dhwaja Birajai, Kaanhe Moonj Janeu Sajaai.",
+    "Shankar Suvan Kesari Nandan, Tej Pratap Maha Jag Vandan.",
     "Vidyaavaan Guni Ati Chatur, Ram Kaaj Karibe Ko Aatur.",
     "Prabhu Charitra Sunibe Ko Rasiya, Ram Lakhan Sita Man Basiya.",
     "Sookshm Roop Dhari Siyaahi Dikhawa, Vikat Roop Dhari Lank Jaraawa.",
     "Bheem Roop Dhari Asur Sanhaare, Ramchandra Ke Kaaj Sanwaare.",
-    "Laay Sanjeevana Lakhana Jiyaaye, Shri Raghubeer Harashi Ur Laye.",
-    "Raghupati Keenhee Bahut Badaai, Tum Mam Priya Bharatahi Sam Bhai.",
-    "Sahasra Badan Tumharo Yash Gaave, Asa Kahi Shri-Pati Kanth Lagaaave.",
-    "Sanakaadik Brahmaadi Muneesa, Narada Sarada Sahita Ahisa.",
-    "Yama Kuber Digapaal Jahan Te, Kavi Kobid Kahin Sake Kahan Te.",
-    "Tum Upkaar Sugreevahin Keenha, Ram Milaya Raaj Pad Deenha.",
+    "Laay Sanjeevani Lakhana Jiyaaye, Shri Raghubeer Harsh Ur Laye.",
+    "Raghupati Keenee Bahut Badaai, Tum Mam Priya Bharatahi Sam Bhai.",
+    "Sahas Badan Tumharo Yash Gaave, As Kahi Shri-Pati Kanth Lagaaave.",
+    "Sanakaadik Brahmaadi Muneesa, Narad Saraswati Sahit Ahisa.",
+    "Yam Kuber Dikpaal Jahan Te, Kavi Kobid Kahin Sake Kahan Te.",
+    "Tum Upkaar Sugreevahin Keenha, Ram Milaye Raaj Pad Deenha.",
     "Tumharo Mantra Vibhishan Maana, Lankeshwar Bhaye Sab Jag Jaana.",
-    "Jug Sahastra Yojan Par Bhanu, Leelyo Taahi Madhur Phal Jaano.",
+    "Jug Sahastra Yojan Par Bhanu, Leelyo Taahi Madhur Phal Jaana.",
     "Prabhu Mudrika Meli Mukh Maahi, Jaladhi Laanghi Gaye Acharaj Naahi.",
     "Durgam Kaaj Jagat Ke Jete, Sugam Anugrah Tumhare Tete.",
-    "Ram Duware Tum Rakhwaare, Hot Na Aanjna Binu Paisare.",
+    "Ram Dware Tum Rakhwaare, Hot Na Aajna Binu Paisare.",
     "Sab Sukh Lahe Tumhaari Sarna, Tum Rakshak Kahu Ko Darna.",
     "Aapan Tej Samhaaro Aapai, Tino Lok Haank Te Kaampai.",
     "Bhoot Pishach Nikat Nahi Aave, Mahaveer Jab Naam Sunave.",
     "Naasai Rog Hare Sab Peera, Japat Nirantar Hanumat Beera.",
-    "Sankat Te Hanuman Chudhaave, Man, Kram, Vachan Dhyaan Jo Laave.",
+    "Sankat Te Hanuman Chudhaave, Man, Karm, Vachan Dhyaan Jo Laave.",
     "Sab Par Ram Tapasvi Raja, Tinke Kaaj Sakal Tum Saaja.",
     "Aur Manorath Jo Koi Laave, Sohi Amit Jeevan Phal Paave.",
     "Chaaron Yug Parataap Tumhaara, Hai Prasiddh Jagat Ujiyaara.",
@@ -115,12 +164,9 @@ HANUMAN_CHALISA_CHAUPAI = [
     "Jo Shat Baar Paath Kar Koi, Chhootahi Bandhi Maha Sukh Hoi.",
     "Jo Yah Padhe Hanuman Chalisa, Hoy Siddhi Saakhi Gaurisa.",
     "Tulsidas Sadaa Hari Chera, Keejai Naath Hriday Mah Dera.",
-    
-
-    
 ]
 
-HANUMAN_CHALISA_CLOSING = "Pawan Tanay Sankat Haran, Mangal Moorti Roop. Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop. Sreerama Jaya Rama Jaya Jaya Ram(3)"
+HANUMAN_CHALISA_CLOSING = "Pawan Tanay Sankat Haran, Mangal Moorti Roop. Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop."
 
 VISHNU_SAHASRANAMA_STOTRAM = [
     "Om Vaasudevah Param Brahma Paramatma Paraatparah, Param Dhaama Paramjyotih Param Tatwam Param Padam.",
@@ -145,34 +191,32 @@ VISHNU_SAHASRANAMA_SLOKAS = [
 ]
 
 # ─────────────────────────────────────────────
-# BALENO CNG AGS — FACTS FROM SEARCH
+# BALENO CNG AGS — FACTS
 # ─────────────────────────────────────────────
 BALENO_FACTS = {
-    "title": "Baleno CNG AGS",
-    "subtitle": "India's first CNG + Automatic in a Maruti hatchback ",
     "exterior": [
-        ("Signature NEXWave Grille", "Chrome slats, Suzuki logo moved to bonnet "),
-        ("NEXTre LED DRLs", "Tri-arrow daytime running lamps "),
-        ("LED Projector Headlamps", "Zeta and Alpha trims "),
-        ("Precision-Cut Alloys", "16-inch dual-tone on Alpha "),
-        ("NEXTre Signature LED Tail Lamps", "L-shaped, distinctive at night "),
-        ("Shark Fin Antenna", "Roof-mounted, replaces old pole antenna "),
+        ("Signature NEXWave Grille", "Chrome slats, Suzuki logo moved to bonnet."),
+        ("NEXTre LED DRLs", "Tri-arrow daytime running lamps."),
+        ("LED Projector Headlamps", "Zeta and Alpha trims."),
+        ("Precision-Cut Alloys", "16-inch dual-tone on Alpha."),
+        ("NEXTre Signature LED Tail Lamps", "L-shaped, distinctive at night."),
+        ("Shark Fin Antenna", "Roof-mounted, replaces old pole antenna."),
     ],
     "interior": [
-        ("Ventilated Front Seats", "Alpha (O) trims "),
-        ("SmartPlay Pro+ Infotainment", "9-inch, wireless Android Auto & Apple CarPlay "),
-        ("Clarion Premium Audio", "Alpha trims "),
-        ("Cooled Wireless Charger", "Qi-certified "),
-        ("Head-Up Display (HUD)", "Pop-up display for key info "),
-        ("360-Degree Camera", "Top trims "),
+        ("Ventilated Front Seats", "Alpha (O) trims."),
+        ("SmartPlay Pro+ Infotainment", "9-inch, wireless Android Auto & Apple CarPlay."),
+        ("Clarion Premium Audio", "Alpha trims."),
+        ("Cooled Wireless Charger", "Qi-certified."),
+        ("Head-Up Display (HUD)", "Pop-up display for key info."),
+        ("360-Degree Camera", "Top trims."),
     ],
     "cng_ags": [
-        ("First in India", "CNG + AGS combination — a first for any Maruti car "),
-        ("Engine", "Advanced Z12E 1.2L with Dual VVT and Idle Start-Stop "),
-        ("CNG Power", "70 bhp & 101.8 Nm in CNG mode "),
-        ("Mileage", "33.61 km/kg (CNG), 24.77 km/l (Petrol AGS) "),
-        ("Variants", "Delta CNG AGS (₹8.32L), Zeta CNG AGS (₹9.32L) "),
-        ("Transmission", "5-speed AGS (AMT) with manual override "),
+        ("First in India", "CNG + AGS combination — a first for any Maruti car."),
+        ("Engine", "Advanced Z12E 1.2L with Dual VVT and Idle Start-Stop."),
+        ("CNG Power", "70 bhp & 101.8 Nm in CNG mode."),
+        ("Mileage", "33.61 km/kg (CNG), 24.77 km/l (Petrol AGS)."),
+        ("Variants", "Delta CNG AGS (₹8.32L), Zeta CNG AGS (₹9.32L)."),
+        ("Transmission", "5-speed AGS (AMT) with manual override."),
     ],
 }
 
@@ -227,6 +271,12 @@ IMAGES = {
         "interior_1_caption": "Cabin view · Photo by Campbell on Unsplash",
         "cng_1": "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=800&q=80",
         "cng_1_caption": "CNG station · Photo by Artiom Vallat on Unsplash",
+    },
+    "career": {
+        "hero": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80",
+        "caption": "Strategy in action · Photo by Campaign Creators on Unsplash",
+        "accent": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=80",
+        "accent_caption": "Data analytics · Photo by Luke Chesser on Unsplash",
     },
 }
 
@@ -466,7 +516,7 @@ st.markdown(
 )
 
 # ─────────────────────────────────────────────
-# RITUAL SELECTOR — 7 BUTTONS
+# RITUAL SELECTOR — 8 BUTTONS
 # ─────────────────────────────────────────────
 st.markdown('<div class="ritual-label">Choose Your Moment</div>', unsafe_allow_html=True)
 
@@ -500,7 +550,7 @@ with col5:
 
 st.markdown('<div class="ritual-label" style="margin-top:20px;">Your Future</div>', unsafe_allow_html=True)
 
-col6, col7 = st.columns(2)
+col6, col7, col8 = st.columns(3)
 
 with col6:
     if st.button("🎯\nMonthly Targets", key="btn_targets", use_container_width=True):
@@ -509,6 +559,10 @@ with col6:
 with col7:
     if st.button("🚗\nBaleno CNG AGS", key="btn_baleno", use_container_width=True):
         st.session_state.mode = "baleno"
+        st.rerun()
+with col8:
+    if st.button("💼\nCareer Roadmap", key="btn_career", use_container_width=True):
+        st.session_state.mode = "career"
         st.rerun()
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -527,6 +581,7 @@ EYEBROW = {
     "vishnu":    "🕉️ Vishnu Sahasranama",
     "targets":   "🎯 Monthly Financial Targets",
     "baleno":    "🚗 Baleno CNG AGS",
+    "career":    "💼 Executive AI Career Roadmap",
 }[mode]
 
 HEADLINE = {
@@ -537,6 +592,7 @@ HEADLINE = {
     "vishnu":    'The thousand <span class="accent">names</span>.',
     "targets":   'The climb from <span class="accent">18 to 49 Lakhs</span>.',
     "baleno":    'The drive to <span class="accent">your Baleno</span>.',
+    "career":    '₹2 Lakhs/month from <span class="accent">Odisha</span>.',
 }[mode]
 
 hero_html = (
@@ -634,8 +690,8 @@ if mode == "morning":
         '<div class="section">'
         '<h3>💭 Thought</h3>'
         '<p>'
-        'I am out of "I am Right Trap".<br>'
-        '<em>"I may be 10% wrong?"</em><br>'
+        'I release the need to be right.<br>'
+        '<em>"What if I\'m 10% wrong?"</em><br>'
         'Their opinion is data, not verdict.'
         '<span class="bold-line">I think clearly. I think freely.</span>'
         '</p>'
@@ -644,7 +700,7 @@ if mode == "morning":
         '<h3>🕊️ Belief</h3>'
         '<p>'
         'I am worthy of my target — month by month.<br>'
-        'I am reliable and fearless to authority.<br>'
+        'I am reliable to authority.<br>'
         'I am a peaceful resolver.<br>'
         'I am valuable. My voice matters.'
         '<span class="bold-line">I believe in my becoming.</span>'
@@ -653,7 +709,7 @@ if mode == "morning":
         '<div class="vow">'
         '<h3>✦ Today\'s Vow ✦</h3>'
         '<p>'
-        'Fake it till make it.<br>'
+        'I am not faking. I am becoming.<br>'
         'Every breath — a reset.<br>'
         'Every word — a seed.<br>'
         'Every action — a brick.<br>'
@@ -685,8 +741,8 @@ elif mode == "afternoon":
         '</div>'
         '<div class="section">'
         '<h3>🎯 My HRCM</h3>'
-        '<div class="hrcm-row"><span class="k">🌿 Health</span><span>Peace, No anger & No overthinking is my priority.</span></div>'
-        '<div class="hrcm-row"><span class="k">🤝 Relationship</span><span>Respect. Listen. Love & most importantly FORGIVE.</span></div>'
+        '<div class="hrcm-row"><span class="k">🌿 Health</span><span>Peace is my priority.</span></div>'
+        '<div class="hrcm-row"><span class="k">🤝 Relationship</span><span>Respect. Listen. Love.</span></div>'
         '<div class="hrcm-row"><span class="k">💼 Career</span><span>I solve problems fearlessly.</span></div>'
         '<div class="hrcm-row"><span class="k">💰 Money</span><span>My monthly target — tracked and hit.</span></div>'
         '</div>'
@@ -696,7 +752,6 @@ elif mode == "afternoon":
         'Have I gossiped today? <em>Return to focus.</em><br>'
         'Have I reacted? <em>Return to calm.</em><br>'
         'Have I moved toward this month\'s target? <em>Take one step now.</em>'
-        'To whom I forgive today\'s target? <em>Think some positive for him/her.</em>'
         '<span class="bold-line">Realign. Resume. Rise.</span>'
         '</p>'
         '</div>'
@@ -766,9 +821,6 @@ elif mode == "night":
     # ── Night YouTube Video ──
     st.markdown('<div class="ritual-label" style="margin-top:24px;">🎧 Night Listening</div>', unsafe_allow_html=True)
     st.video("https://www.youtube.com/watch?v=v9AHBtbk-E0")
-
-    st.video("https://www.youtube.com/watch?v=fHBR1j1kJ1I")
-    st.video("https://www.youtube.com/watch?v=4Vz6L8B73i4")
     st.caption("Let this night sound carry you into stillness. Close your eyes. Breathe.")
 
 # ─────────────────────────────────────────────
@@ -1017,7 +1069,6 @@ elif mode == "baleno":
         unsafe_allow_html=True,
     )
 
-    # ── Exterior ──
     st.markdown('<div class="ritual-label" style="margin-top:24px;">🚗 Exterior</div>', unsafe_allow_html=True)
     st.image(IMAGES["baleno"]["exterior_1"], caption=IMAGES["baleno"]["exterior_1_caption"], use_container_width=True)
     exterior_rows = ""
@@ -1029,7 +1080,6 @@ elif mode == "baleno":
         )
     st.markdown(f'<div class="section"><h3>Exterior Highlights</h3>{exterior_rows}</div>', unsafe_allow_html=True)
 
-    # ── Interior ──
     st.markdown('<div class="ritual-label" style="margin-top:24px;">🪑 Interior</div>', unsafe_allow_html=True)
     st.image(IMAGES["baleno"]["interior_1"], caption=IMAGES["baleno"]["interior_1_caption"], use_container_width=True)
     interior_rows = ""
@@ -1041,7 +1091,6 @@ elif mode == "baleno":
         )
     st.markdown(f'<div class="section"><h3>Interior Highlights</h3>{interior_rows}</div>', unsafe_allow_html=True)
 
-    # ── CNG + AGS ──
     st.markdown('<div class="ritual-label" style="margin-top:24px;">⛽ CNG + AGS</div>', unsafe_allow_html=True)
     st.image(IMAGES["baleno"]["cng_1"], caption=IMAGES["baleno"]["cng_1_caption"], use_container_width=True)
     cng_rows = ""
@@ -1053,7 +1102,6 @@ elif mode == "baleno":
         )
     st.markdown(f'<div class="section"><h3>CNG + AGS — Why It Matters</h3>{cng_rows}</div>', unsafe_allow_html=True)
 
-    # ── Closing vow ──
     st.markdown(
         '<div class="vow" style="margin-top:24px;">'
         '<h3>✦ The Baleno Vow ✦</h3>'
@@ -1062,6 +1110,122 @@ elif mode == "baleno":
         'I will press the start button.<br>'
         'I will drive it home — CNG, AGS, and all.<br>'
         '<strong>₹18 Lakhs. Then ₹19. Then ₹20. Then the keys.</strong>'
+        '</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+# ─────────────────────────────────────────────
+# CONTENT — CAREER ROADMAP
+# ─────────────────────────────────────────────
+elif mode == "career":
+    st.markdown(
+        '<div class="card card-hero">'
+        '<div class="badge">💼 Career Roadmap</div>'
+        '<h2 class="salutation">The <span class="accent">AI Advantage</span>.</h2>'
+        '<p class="prompt">27 years of domain expertise + AI = ₹2 Lakhs/month from Odisha.</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── The Core Goal ──
+    st.markdown(
+        '<div class="section">'
+        '<h3>🎯 The Career Goal</h3>'
+        '<p>'
+        'To achieve <strong>₹2 Lakhs per month in Odisha</strong> (Angul, Bhubaneswar, Jharsuguda corridor) '
+        'by leveraging 27 years of deep domain accounting expertise, supercharged with modern AI, '
+        'Python, Pandas, and Streamlit analytics workflows.'
+        '<span class="bold-line">3 local retainers × ₹70,000/month = ₹2.1 Lakhs/month.</span>'
+        '</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── Why This Works ──
+    st.markdown(
+        '<div class="section">'
+        '<h3>⚡ Why This Works</h3>'
+        '<div class="hrcm-row"><span class="k">Domain Monopoly</span><span>Standard programmers do not understand GST ITC, floorplan interest, or shop-floor inventory leakages.</span></div>'
+        '<div class="hrcm-row"><span class="k">High-Value Retainers</span><span>3 local manufacturing or auto-dealer groups paying ₹70,000/month securely meets the target.</span></div>'
+        '<div class="hrcm-row"><span class="k">Strategic Positioning</span><span>Industrial Financial Systems Consultant — not an entry-level coder.</span></div>'
+        '<div class="hrcm-row"><span class="k">Tech Stack</span><span>Light, secure intelligence layers on top of Tally Prime and Dealer Management Systems (DMS).</span></div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── Target Industry Verticals ──
+    st.markdown(
+        '<div class="section">'
+        '<h3>🏭 Target Industry Verticals</h3>'
+        '<div class="hrcm-row"><span class="k">Manufacturing</span><span>Angul/Kalinganagar steel, power, and logistics units.</span></div>'
+        '<div class="hrcm-row"><span class="k">Auto Showrooms</span><span>Floorplan financing cost optimization and workshop leakages.</span></div>'
+        '<div class="hrcm-row"><span class="k">Corporate Auditing</span><span>Automated Benford\'s Law anomaly and GST GSTR-2B scans.</span></div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── 6-Month Roadmap ──
+    st.markdown('<div class="ritual-label" style="margin-top:26px;">🗓️ 6-Month Execution Roadmap</div>', unsafe_allow_html=True)
+
+    for item in CAREER_ROADMAP:
+        status_icon = {
+            "Completed": "✅",
+            "In Progress": "🔄",
+            "Pending": "⏳",
+        }.get(item["Status"], "⏳")
+
+        roadmap_html = (
+            '<div class="verse-card">'
+            f'<div class="verse-num">{status_icon} {item["Month"]} · {item["Status"]}</div>'
+            f'<p class="verse-text"><strong>{item["Focus"]}</strong><br>{item["Action"]}</p>'
+            '</div>'
+        )
+        st.markdown(roadmap_html, unsafe_allow_html=True)
+
+    # ── Roadmap Table ──
+    st.markdown('<div class="ritual-label" style="margin-top:26px;">📋 Roadmap Overview</div>', unsafe_allow_html=True)
+    df_roadmap = pd.DataFrame(CAREER_ROADMAP)
+    st.dataframe(df_roadmap, use_container_width=True, hide_index=True)
+
+    # ── Leakage Demo ──
+    st.markdown('<div class="ritual-label" style="margin-top:26px;">⚙️ Live Tally/DMS Logic Simulation</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section">'
+        '<h3>Capital Leakage Preview</h3>'
+        '<p>A quick demonstration of how your code intercepts capital leakage '
+        '(e.g., untracked showroom holding costs). This is what you present to '
+        'regional business owners during your consultation calls.</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.dataframe(CAREER_LEAKAGE_SAMPLE, use_container_width=True, hide_index=True)
+
+    total_leakage = int(CAREER_LEAKAGE_SAMPLE["Holding_Cost_Per_Month"].sum())
+    total_tied = int(CAREER_LEAKAGE_SAMPLE["Tied_Capital_INR"].sum())
+
+    st.markdown(
+        '<div class="section">'
+        '<h3>💰 Identified Monthly Capital Drag</h3>'
+        f'<div class="hrcm-row"><span class="k">Tied Capital</span><span>₹{format_inr(total_tied)}</span></div>'
+        f'<div class="hrcm-row"><span class="k">Monthly Drag</span><span>₹{format_inr(total_leakage)}</span></div>'
+        f'<div class="hrcm-row"><span class="k">Annual Drag</span><span>₹{format_inr(total_leakage * 12)}</span></div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.error(f"⚠️ Total Preventable Monthly Capital Drag Identified by Python Engine: ₹{format_inr(total_leakage)}")
+
+    # ── Career Vow ──
+    st.markdown(
+        '<div class="vow" style="margin-top:24px;">'
+        '<h3>✦ The Consultant\'s Vow ✦</h3>'
+        '<p>'
+        'I do not compete with programmers.<br>'
+        'I do not compete with accountants.<br>'
+        'I combine 27 years of domain wisdom with modern AI.<br>'
+        '<strong>₹70,000 × 3 retainers = ₹2.1 Lakhs/month.</strong>'
         '</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -1086,11 +1250,12 @@ LABELS = {
     "vishnu":    "🕉️ I've Chanted the Vishnu Sahasranama",
     "targets":   "🎯 I've Reviewed My Monthly Targets",
     "baleno":    "🚗 I've Visualized My Baleno",
+    "career":    "💼 I've Reviewed My Career Roadmap",
 }
 
 today = datetime.now().date().isoformat()
 
-if mode not in ["targets", "baleno"]:
+if mode not in ["targets", "baleno", "career"]:
     if not st.session_state.completed.get(mode, False):
         if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
             st.session_state.completed[mode] = True
@@ -1109,7 +1274,7 @@ if mode not in ["targets", "baleno"]:
 else:
     if st.button(LABELS[mode], use_container_width=True, key=f"complete_{mode}"):
         st.balloons()
-        st.success("✨ Visualization complete. Keep becoming.")
+        st.success("✨ Review complete. Keep building.")
 
 # ─────────────────────────────────────────────
 # STREAK + PROGRESS
