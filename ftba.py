@@ -16,6 +16,81 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────
+# AUTHENTICATION GATE
+# ─────────────────────────────────────────────
+def check_password():
+    """Returns True if the user entered the correct username + password."""
+
+    def password_entered():
+        try:
+            # Pull credentials from st.secrets
+            stored_passwords = st.secrets["passwords"]
+            username = st.session_state.get("username_input", "").strip()
+            password = st.session_state.get("password_input", "")
+
+            if username in stored_passwords and stored_passwords[username] == password:
+                st.session_state["authenticated"] = True
+                st.session_state["current_user"] = username
+                # Clear the password from memory
+                st.session_state["password_input"] = ""
+            else:
+                st.session_state["authenticated"] = False
+                st.session_state["auth_error"] = "Invalid username or password."
+        except Exception as e:
+            st.session_state["authenticated"] = False
+            st.session_state["auth_error"] = f"Auth error: {e}"
+
+    # If already authenticated, return True
+    if st.session_state.get("authenticated", False):
+        return True
+
+    # ── Login UI ──
+    login_css = (
+        "<style>"
+        ".login-wrap{max-width:420px;margin:80px auto 0 auto;padding:40px 32px;"
+        "background:var(--card,#1E1A14);border:2px solid var(--gold-pale,#4A3E22);"
+        "border-radius:20px;box-shadow:0 16px 48px rgba(0,0,0,0.5);text-align:center;}"
+        ".login-title{font-family:'Cormorant Garamond',serif;font-size:2rem;"
+        "font-weight:700;color:var(--ink,#F5EBD8);margin:0 0 8px 0;letter-spacing:1px;}"
+        ".login-sub{font-family:'Cormorant Garamond',serif;font-size:1.05rem;"
+        "font-style:italic;color:var(--ink-soft,#D4C8A8);margin:0 0 24px 0;}"
+        ".login-divider{width:80px;height:1px;background:linear-gradient(90deg,"
+        "transparent,#E8B96A,transparent);margin:16px auto 24px auto;}"
+        "</style>"
+    )
+    st.markdown(login_css, unsafe_allow_html=True)
+
+    st.markdown(
+        '<div class="login-wrap">'
+        '<p class="login-title">🌿 Pocket Affirmation</p>'
+        '<p class="login-sub">A Sacred Daily Ritual</p>'
+        '<div class="login-divider"></div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    # Login form
+    with st.form("login_form", clear_on_submit=False):
+        st.text_input("Username", key="username_input", placeholder="Enter your username")
+        st.text_input("Password", key="password_input", type="password", placeholder="Enter your password")
+        submitted = st.form_submit_button("🔓 Unlock", use_container_width=True)
+        if submitted:
+            password_entered()
+            if st.session_state.get("authenticated", False):
+                st.rerun()
+
+    if "auth_error" in st.session_state and st.session_state["auth_error"]:
+        st.error(st.session_state["auth_error"])
+        st.session_state["auth_error"] = ""
+
+    st.caption("🔒 This app is private. Only authorized users may enter.")
+    return False
+
+
+if not check_password():
+    st.stop()
+
+# ─────────────────────────────────────────────
 # MONTHLY FINANCIAL TARGETS
 # ─────────────────────────────────────────────
 MONTHLY_TARGETS = [
@@ -477,11 +552,27 @@ CSS = (
 st.markdown(CSS, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# THEME SELECTOR
+# LOGOUT BUTTON (top-right)
 # ─────────────────────────────────────────────
-top_left, top_right = st.columns([3, 2])
+top_left, top_mid, top_right = st.columns([3, 1, 1])
 
 with top_right:
+    if st.button("🚪 Logout", key="logout_btn", use_container_width=True):
+        st.session_state["authenticated"] = False
+        st.session_state["current_user"] = ""
+        st.rerun()
+
+with top_mid:
+    user = st.session_state.get("current_user", "")
+    if user:
+        st.caption(f"👤 {user}")
+
+# ─────────────────────────────────────────────
+# THEME SELECTOR
+# ─────────────────────────────────────────────
+top_left2, top_right2 = st.columns([3, 2])
+
+with top_right2:
     theme_options = list(THEMES.keys())
     theme_labels = [f"{THEMES[t]['icon']} {THEMES[t]['name']}" for t in theme_options]
     current_idx = theme_options.index(st.session_state.theme)
@@ -818,7 +909,6 @@ elif mode == "night":
         unsafe_allow_html=True,
     )
 
-    # ── Night YouTube Video ──
     st.markdown('<div class="ritual-label" style="margin-top:24px;">🎧 Night Listening</div>', unsafe_allow_html=True)
     st.video("https://www.youtube.com/watch?v=v9AHBtbk-E0")
     st.caption("Let this night sound carry you into stillness. Close your eyes. Breathe.")
@@ -1128,7 +1218,6 @@ elif mode == "career":
         unsafe_allow_html=True,
     )
 
-    # ── The Core Goal ──
     st.markdown(
         '<div class="section">'
         '<h3>🎯 The Career Goal</h3>'
@@ -1142,7 +1231,6 @@ elif mode == "career":
         unsafe_allow_html=True,
     )
 
-    # ── Why This Works ──
     st.markdown(
         '<div class="section">'
         '<h3>⚡ Why This Works</h3>'
@@ -1154,7 +1242,6 @@ elif mode == "career":
         unsafe_allow_html=True,
     )
 
-    # ── Target Industry Verticals ──
     st.markdown(
         '<div class="section">'
         '<h3>🏭 Target Industry Verticals</h3>'
@@ -1165,7 +1252,6 @@ elif mode == "career":
         unsafe_allow_html=True,
     )
 
-    # ── 6-Month Roadmap ──
     st.markdown('<div class="ritual-label" style="margin-top:26px;">🗓️ 6-Month Execution Roadmap</div>', unsafe_allow_html=True)
 
     for item in CAREER_ROADMAP:
@@ -1183,12 +1269,10 @@ elif mode == "career":
         )
         st.markdown(roadmap_html, unsafe_allow_html=True)
 
-    # ── Roadmap Table ──
     st.markdown('<div class="ritual-label" style="margin-top:26px;">📋 Roadmap Overview</div>', unsafe_allow_html=True)
     df_roadmap = pd.DataFrame(CAREER_ROADMAP)
     st.dataframe(df_roadmap, use_container_width=True, hide_index=True)
 
-    # ── Leakage Demo ──
     st.markdown('<div class="ritual-label" style="margin-top:26px;">⚙️ Live Tally/DMS Logic Simulation</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="section">'
@@ -1217,7 +1301,6 @@ elif mode == "career":
 
     st.error(f"⚠️ Total Preventable Monthly Capital Drag Identified by Python Engine: ₹{format_inr(total_leakage)}")
 
-    # ── Career Vow ──
     st.markdown(
         '<div class="vow" style="margin-top:24px;">'
         '<h3>✦ The Consultant\'s Vow ✦</h3>'
