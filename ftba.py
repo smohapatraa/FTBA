@@ -908,6 +908,8 @@ elif mode == "night":
 
     st.markdown('<div class="ritual-label" style="margin-top:24px;">🎧 Night Listening</div>', unsafe_allow_html=True)
     st.video("https://www.youtube.com/watch?v=v9AHBtbk-E0")
+  st.video("https://www.youtube.com/watch?v=0FR8PNcazKk")
+
     st.caption("Let this night sound carry you into stillness. Close your eyes. Breathe.")
 
 # ─────────────────────────────────────────────
